@@ -1,0 +1,115 @@
+# PayBridge — Cross-Border Contractor Settlement MVP
+
+PayBridge is a lightweight, high-reliability payment bridging and settlement service built for the Hackathon MVP. It empowers foreign enterprises to prepare, validate, approve, and execute batched payouts to Vietnamese contractors, freelancers, and remote staff.
+
+> **DEMO / SANDBOX NOTICE**: This application operates in testnet/sandbox mode and processes simulation payouts only. It does not handle real funds, hold custody of private keys, or bypass financial regulations.
+
+---
+
+## 1. Architecture & Core Invariants
+
+### Hexagonal / Modular Adapter Architecture
+- **Employer Dashboard**: Next.js (App Router), Tailwind CSS, TypeScript (Strict).
+- **Domain Service (`PayoutBatchService`)**: Encapsulates payroll batch lifecycle, state machine transitions, and audit trails.
+- **Provider Adapter Pattern**:
+  - `PayoutProvider` interface.
+  - `MockPayoutProvider`: Fully deterministic simulation adapter for testnet/demo with built-in idempotency protection.
+  - `NinePayPayoutProvider`: Placeholder adapter reserved for official 9Pay chi hộ integration upon verification of production credentials and tech specifications.
+- **AI Advisor Placeholder (`GeminiAdvisorService`)**: Read-only summarization and risk analysis. AI services are strictly prohibited from authorizing or executing financial transactions.
+
+### Financial Invariants
+1. **Lossless Monetary Math**: All currency figures and totals are handled as lossless integer/string representations (using `bigint`). Floating-point arithmetic (`number`) is strictly forbidden for money.
+2. **Approval Gate (BR-01 / FR-07)**: Batches cannot transition to `PROCESSING` or execute without prior explicit `APPROVED` status from an authorized user.
+3. **Idempotency (FR-12 / NFR-03)**: Duplicate submissions with the same idempotency key are safely deduplicated to avoid duplicate payouts.
+4. **Audit Trail (FR-11)**: Every state transition (`DRAFT` → `VALIDATED` → `APPROVED` → `PROCESSING` → `COMPLETED`) is recorded with timestamps, actor IDs, and redacted metadata.
+
+---
+
+## 2. Directory Structure
+
+```text
+PayBridge/
+├── docs/
+│   ├── 01-ARCHITECTURE.md        # Architecture specification
+│   ├── 02-REQUIREMENTS.md        # Functional & Non-Functional Requirements
+│   └── 03-IMPLEMENTATION-PLAN.md # Execution roadmap
+├── src/
+│   ├── app/                      # Next.js App Router & API routes
+│   │   ├── api/batches/          # RESTful Route Handlers
+│   │   ├── layout.tsx
+│   │   ├── page.tsx              # Interactive Dashboard
+│   │   └── globals.css
+│   ├── components/               # Reusable UI components (Header, StatusBadge)
+│   ├── features/payouts/         # Payout feature modals & views
+│   ├── lib/
+│   │   ├── ai/                   # Gemini AI Advisor placeholder
+│   │   ├── providers/            # PayoutProvider, MockPayoutProvider, 9Pay placeholder
+│   │   ├── repositories/         # PayoutBatchRepository (in-memory dev store)
+│   │   ├── services/             # PayoutBatchService (domain logic & invariants)
+│   │   ├── utils/                # Lossless financial calculation helpers
+│   │   └── validation/           # Zod input schemas
+│   └── types/                    # Domain models & provider contracts
+├── tests/
+│   └── unit/                     # Vitest unit test suite
+├── .env.example                  # Environment configuration template
+├── package.json
+├── tsconfig.json
+├── vitest.config.ts
+└── README.md
+```
+
+---
+
+## 3. Quickstart & Development
+
+### Prerequisites
+- Node.js >= 20
+- pnpm >= 9 (or Bun)
+
+### 1. Installation
+```bash
+pnpm install
+```
+
+### 2. Environment Configuration
+Copy `.env.example` to `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+### 3. Run Development Server
+```bash
+pnpm dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 4. Run Test Suite
+```bash
+pnpm test
+```
+
+### 5. Typecheck & Build
+```bash
+pnpm typecheck
+pnpm build
+```
+
+---
+
+## 4. End-to-End Demo Walkthrough
+
+1. **Dashboard Overview**: View the active dashboard showing empty state or existing batches.
+2. **Create Batch**: Click **"+ Create Payout Batch"** (or use the **"⚡ Load 3 Sample Recipients"** shortcut).
+3. **Lossless Total**: Verify the live batch total computed with integer-safe math (`45,500,000 VND`).
+4. **Validate Batch**: Click into the batch and run **"Validate Batch (Step 1)"** to check recipient validity.
+5. **Approve Batch**: Click **"Approve Batch (Step 2)"** to simulate sign-off by the approver.
+6. **Execute Batch**: Click **"Execute Payout via 9Pay Testnet Adapter"** to dispatch the batch. Items immediately receive mock provider reference IDs (`MOCK-9PAY-TXN-...`).
+7. **Audit Trail**: Switch to the **"Audit Trail"** tab to inspect the chronological timeline of recorded actions.
+8. **AI Advisor**: Switch to the **"AI Advisor"** tab to view the read-only summary generated by the Gemini service placeholder.
+
+---
+
+## 5. Security & Secret Management
+
+- Strictly **Zero Secrets in Git**. All API keys, provider credentials, and webhooks must be supplied via local environment variables.
+- Secrets and PII are redacted from audit events and client-facing API responses.
