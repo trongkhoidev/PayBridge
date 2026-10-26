@@ -1,80 +1,54 @@
-# Design System Specification (Stitch Design) — PayBridge
+# Design System Specification (Human-Centric Fintech) — PayBridge
 
-> **Google Stitch Ready**: This design specification and its companion screen prompts in [`docs/GOOGLE_STITCH_DESIGN_SPEC.md`](file:///Users/admin/repos/PayBridge/docs/GOOGLE_STITCH_DESIGN_SPEC.md) are calibrated for **Google Stitch** (Google Labs AI UI Prototyping).
-
-## 1. Design Vision & Philosophy
-**PayBridge** provides multinational finance teams, HR managers, and founders with an executive, institutional-grade settlement portal for contractor and freelancer payrolls in Vietnam. 
- 
-
-- **Fintech Precision & Trust**: High-contrast, clean elevation inspired by top-tier financial software (Stripe, Mercury, Wise). Every figure is displayed with lossless decimal fidelity.
-- **Cognitive Clarity & Progressive Disclosure**: Multi-step payout lifecycle (`Draft` → `Validated` → `Approved` → `Processing` → `Completed`) with clear visual progress tracks, ensuring approvers always understand what they are signing off on.
-- **Zero Engineering Slop**: Technical internals like idempotency keys and checksum hashes are cleanly tucked into inspectable badges or audit drawers, keeping the core executive workflow distraction-free.
-- **Strict Compliance & Separation of Duties**: The UI explicitly enforces the dual-control principle: a batch cannot be executed without executive approval. Clear sandbox/testnet banners ensure demo safety.
+> **Human-Centric Fintech Theme**: Được tối ưu hóa cho trải nghiệm người dùng thực tế, ấm áp, thân thiện, dễ đọc nhưng vẫn giữ trọn vẹn tính chính xác, bảo mật và uy tín của nền tảng tài chính doanh nghiệp.
 
 ---
 
-## 2. Color Palette & Semantics
+## 1. Triết lý Thiết kế (Human-Centric & Approachable Philosophy)
 
-| Token | Class / Hex | Semantic Meaning |
+- **Thân thiện & Gần gũi (Warm Human Approach)**: Tránh cảm giác lạnh lẽo, máy móc, cyberpunk hay terminal công nghiệp. Sử dụng tone nền ấm (`#F8F9FA`), thẻ trắng viền bo góc mềm mại (`rounded-2xl`), lời chào đón con người trực quan ("Xin chào, Acme Global! 👋"), và lời giải thích ngắn gọn, dễ hiểu.
+- **Minh bạch & Tôn trọng Người dùng (Transparent & Reassuring)**: Mọi thao tác tài chính đều có thông báo rõ ràng: Môi trường thử nghiệm Sandbox (không mất tiền thật), quy trình kiểm soát kép bảo vệ ngân sách, và người thụ hưởng nhận được bao nhiêu tiền (không làm tròn sai số).
+- **Tránh Jargon Khó hiểu**: Kết hợp tiếng Việt tự nhiên làm ngôn ngữ hiển thị chính, phụ đề thuật ngữ tài chính quốc tế (CFO, Dual-Control, NAPAS 24/7, 9Pay Gateway) để cả kế toán nội địa lẫn ban giám đốc nước ngoài đều nắm bắt ngay lập tức.
+- **Trí tuệ Nhân tạo An toàn & Đồng hành**: Gemini AI đóng vai trò như một cộng sự cố vấn mẫn cán, giải thích luật thuế TNCN 10% và cảnh báo khoản chi lớn, nhưng không bao giờ tự ý thao tác tiền bạc của con người.
+
+---
+
+## 2. Bảng Màu & Cảm xúc (Palette & Mood)
+
+| Nhóm Màu | Giá trị Màu / Class | Cảm xúc & Ý nghĩa Ứng dụng |
 |---|---|---|
-| **Canvas Background** | `bg-slate-50/70` (`#f8fafc`) | Clean, neutral backdrop canvas |
-| **Card Surface** | `bg-white border border-slate-200/80 shadow-sm` | Primary elevated surfaces for lists & tables |
-| **Sidebar / Navigation** | `bg-slate-900 text-slate-100` | High-contrast, authoritative navigation rail |
-| **Primary Brand / Action** | `bg-indigo-600 hover:bg-indigo-700 text-white` | Primary calls to action, creation buttons |
-| **Approval / Success State** | `bg-emerald-50 text-emerald-700 border-emerald-200` | Approved batches, successful 9Pay dispatches |
-| **Validation / Info State** | `bg-blue-50 text-blue-700 border-blue-200` | Validated recipient accounts, pre-flight checks |
-| **Sandbox / Warning State** | `bg-amber-50 text-amber-800 border-amber-300` | Testnet badges, mock simulator alerts |
-| **Review / Flagged State** | `bg-orange-50 text-orange-800 border-orange-200` | Batches requiring manual reconciliation |
-| **Destructive / Error State** | `bg-rose-50 text-rose-700 border-rose-200` | Rejected items, invalid bank accounts |
+| **Nền Canvas Ấm** | `#F8F9FA` | Nền sáng dịu mắt, ấm áp, không gây mỏi mắt khi làm việc lâu |
+| **Bề mặt Thẻ (Card Surface)** | `bg-white border border-slate-200/90 shadow-soft rounded-2xl` | Thẻ bo tròn 16px mềm mại, tạo chiều sâu tự nhiên |
+| **Thanh Điều hướng (Sidebar)** | `#181C26` (Warm Deep Charcoal Navy) | Vững chãi, tin cậy, không quá đen gắt, làm nổi bật logo và menu |
+| **Màu Nhận diện Chủ đạo** | `bg-indigo-600 hover:bg-indigo-700` (`#4F46E5`) | Sắc chàm hiện đại, năng động, chuẩn mực Fintech quốc tế (Wise, Stripe) |
+| **Trạng thái Hoàn thành / Duyệt** | `bg-emerald-50 text-emerald-800 border-emerald-200` | Xanh ngọc an tâm, báo hiệu tiền đã giải ngân an toàn |
+| **Trạng thái Thử nghiệm / Lưu ý** | `bg-amber-50 text-amber-800 border-amber-200` | Vàng mật ong ấm áp, nhắc nhở môi trường Sandbox an toàn |
+| **Trạng thái Đang xử lý / Kiểm tra** | `bg-sky-50 text-sky-800 border-sky-200` | Xanh da trời thân thiện, báo hiệu hệ thống đang đối soát |
+| **Trạng thái Cảnh báo / Lỗi** | `bg-rose-50 text-rose-800 border-rose-200` | Đỏ san hô nhẹ nhàng, chỉ rõ điểm cần người dùng chỉnh sửa |
 
 ---
 
-## 3. Typography & Financial Data Hierarchy
-- **Primary Font**: System font stack (`-apple-system`, `BlinkMacSystemFont`, `Inter`, `Segoe UI`) for crisp legibility.
-- **Financial Monospace**: `font-mono tracking-tight` for all currency amounts (VND, USDC), bank account numbers, transaction hashes, and idempotency keys.
-- **Executive KPI Numbers**: `text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900`.
-- **Page Titles**: `text-xl sm:text-2xl font-bold tracking-tight text-slate-900`.
-- **Section Headers**: `text-sm font-semibold uppercase tracking-wider text-slate-500`.
-- **Status Pills**: `text-xs font-semibold px-2.5 py-0.5 rounded-full border`.
+## 3. Kiểu chữ & Số học Chính xác (Typography Hierarchy)
+
+- **Phông chữ Chính (Humanist Sans-Serif)**: **`Plus Jakarta Sans`** (Google Fonts hỗ trợ đầy đủ tiếng Việt). Các nét chữ bo tròn tự nhiên, khoảng cách chữ thoáng, dễ đọc và tạo cảm giác thân thiện, đáng tin cậy.
+- **Hiển thị Số tiền (Lossless Tabular Numerals)**: Enforce `tabular-nums font-bold` kết hợp phân cách hàng ngàn dấu phẩy (`15,000,000 VND`), giúp mắt quét nhanh các khoản tiền theo cột dọc mà không bị nhảy ký tự.
+- **Phông chữ Kỹ thuật Phụ (Monospace)**: **`JetBrains Mono`** chỉ sử dụng cho các mã hệ thống cần copy-paste chính xác như Batch ID, Idempotency Key, và số tài khoản ngân hàng.
 
 ---
 
-## 4. Multi-Page Navigation Architecture
+## 4. Các Thành phần Tương tác Phía Người dùng
 
-```
-PayBridge Platform Shell
-├── 📊 Overview & Batches (/)              -> Live KPIs, batch filter table, quick demo trigger
-├── ➕ New Batch Wizard (/batches/new)     -> 3-step structured creation flow with lossless audit
-├── 🔍 Batch Command Center (/batches/[id]) -> Step-by-step approval, execution, AI advisor, audit log
-├── 👥 Contractor Vault (/recipients)      -> Beneficiary directory with Vietnamese bank accounts
-├── 📜 Audit & Settlement Ledger (/audit)  -> Immutable event logs, actor tracking, idempotency records
-└── ⚙️ Payment Rails & Config (/settings)  -> 9Pay adapter health, mock parameters, security invariants
-```
-
----
-
-## 5. Key Component Standards
-
-### A. Lifecycle Progress Tracker
-A 4-node interactive horizontal progress stepper showing real-time batch lifecycle:
-1. `Draft` (Data Entry)
-2. `Validated` (Account & Quota Check)
-3. `Approved` (Executive Sign-off)
-4. `Settled` (9Pay Testnet Dispatched)
-
-### B. Dual-Control Approval Gate
-A high-prominence action card that disables the **Execute Payout** button until a designated Approver signs off. Once signed, records actor ID and timestamp into the immutable audit trail.
-
-### C. Gemini AI Risk & Payout Advisor
-A read-only advisory drawer providing:
-- Natural language batch summary (Total disbursed, beneficiary breakdown).
-- High-value batch alerts (> 100M VND threshold).
-- Clear compliance boundary reminder: *AI cannot authorize financial execution.*
-
-### D. Recipient Data Table
-Clean, data-dense tabular display featuring:
-- Beneficiary full name with avatar initials.
-- Bank code badge (VCB, MB, Techcombank, 9Pay Wallet).
-- Masked account/phone number with copy action.
-- Integer-safe formatted amounts (e.g., `15,000,000 VND`).
-- Real-time provider reference ID once processed (`MOCK-9PAY-TXN-...`).
+1. **Thanh Chào & Trạng thái (Welcome & Status Banner)**:
+   - Hiển thị lời chào thân mật kèm biểu tượng vẫy tay `👋`.
+   - Huy hiệu `Cổng 9Pay Testnet (Mô phỏng an toàn)` giúp người dùng yên tâm thử nghiệm toàn bộ luồng mà không lo bị trừ tiền tài khoản.
+2. **Quy trình Duyệt chi 4 Bước (Visual Lifecycle Stepper)**:
+   - Bước 1: *Bản nháp* (Nhập danh sách & số tiền).
+   - Bước 2: *Đã kiểm tra* (Đối soát tài khoản ngân hàng NAPAS).
+   - Bước 3: *CFO đã ký duyệt* (Kiểm soát kép theo chuẩn SEC-804).
+   - Bước 4: *Đã chuyển tiền* (9Pay và NAPAS 24/7 ghi nhận mã giao dịch).
+3. **Modal Ký duyệt Kiểm soát kép (`DualControlSignoffModal.tsx`)**:
+   - Thiết kế thẻ trắng mềm mại, thông báo rõ cam kết pháp lý và danh sách tiền thụ hưởng trước khi bấm xác nhận.
+4. **Modal Hoạt hoạ Giải ngân 4 Chặng (`SettlementDispatchModal.tsx`)**:
+   - Từng bước kiểm tra chữ ký, bắt tay cổng 9Pay, điều phối chuyển mạch NAPAS và trả biên lai giao dịch thành công.
+5. **Khay Cố vấn Rủi ro Gemini AI (`GeminiAdvisorDrawer.tsx`)**:
+   - Hỗ trợ giải thích thuế TNCN 10%, kiểm tra tương thích ngân hàng và tạo biên bản tóm tắt cho ban lãnh đạo.
