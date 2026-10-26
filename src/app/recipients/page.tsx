@@ -14,7 +14,17 @@ import {
   CheckCircle2,
   XCircle,
   ExternalLink,
+  Coins,
+  BadgeCheck,
 } from 'lucide-react';
+
+const AVATAR_COLORS = [
+  'from-emerald-400 to-teal-600',
+  'from-indigo-400 to-purple-600',
+  'from-amber-400 to-orange-500',
+  'from-rose-400 to-pink-600',
+  'from-sky-400 to-blue-600',
+];
 
 export default function RecipientsPage() {
   const [recipients, setRecipients] = useState<RecipientRecord[]>([]);
@@ -25,7 +35,7 @@ export default function RecipientsPage() {
 
   // New recipient form state
   const [newName, setNewName] = useState('');
-  const [newRole, setNewRole] = useState('Software Engineer');
+  const [newRole, setNewRole] = useState('Lập trình viên Senior');
   const [newEmail, setNewEmail] = useState('');
   const [newBankCode, setNewBankCode] = useState('VCB');
   const [newAccountNumber, setNewAccountNumber] = useState('');
@@ -92,153 +102,156 @@ export default function RecipientsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Contractor & Beneficiary Vault
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+              Danh bạ Nhân sự & Freelancer Việt Nam
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Verified Vietnamese contractors, freelancers, and staff bank routing profiles.
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Quản lý hồ sơ nhận thanh toán, tài khoản ngân hàng NAPAS 24/7 và ví 9Pay của các cộng sự.
             </p>
           </div>
 
           <button
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-sm transition"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-sm shadow-indigo-600/30 transition hover:shadow-md hover:-translate-y-0.5 self-start sm:self-auto"
           >
-            <Plus size={15} />
-            <span>Add Beneficiary</span>
+            <Plus size={16} />
+            <span>+ Thêm nhân sự mới</span>
           </button>
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Active Beneficiaries
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Tổng số nhân sự
             </span>
-            <span className="text-2xl font-black text-slate-900">{recipients.length}</span>
-            <span className="text-[10px] text-slate-400 block mt-1">Contractors in VN</span>
+            <span className="text-2xl font-black text-slate-900">{recipients.length} Người</span>
+            <span className="text-xs text-indigo-600 font-semibold block">Đội ngũ tại Việt Nam</span>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Bank Verification
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Đã xác thực tài khoản
             </span>
             <span className="text-2xl font-black text-emerald-600">
               {recipients.filter((r) => r.isVerified).length} / {recipients.length}
             </span>
-            <span className="text-[10px] text-emerald-700 block mt-1">Pre-flight Verified</span>
+            <span className="text-xs text-emerald-700 font-semibold block">Sẵn sàng nhận lương</span>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Supported Banking Rails
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Ngân hàng & Ví hỗ trợ
             </span>
-            <span className="text-sm font-bold text-slate-900 block mt-1">
+            <span className="text-sm font-extrabold text-slate-900 block mt-1">
               VCB, MB, TCB, ACB, 9Pay
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">NAPAS / 9Pay Chi Hộ</span>
+            <span className="text-xs text-slate-400 block">Chuyển tiền liên ngân hàng 24/7</span>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Dual-Control Audit
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Kiểm soát kép (SEC-804)
             </span>
-            <span className="text-sm font-bold text-indigo-700 block mt-1">
-              Enforced on all Payouts
+            <span className="text-sm font-extrabold text-indigo-700 block mt-1">
+              Bảo vệ 100% đợt chi
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">Immutable Logged</span>
+            <span className="text-xs text-slate-400 block">Ghi nhận sổ cái bất biến</span>
           </div>
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex flex-col sm:flex-row items-center gap-3">
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-soft flex flex-col sm:flex-row items-center gap-3">
           <div className="relative flex-1 w-full">
             <Search
-              size={15}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
             />
             <input
               type="text"
-              placeholder="Search by contractor name, account number, or role..."
+              placeholder="Tìm kiếm theo tên nhân sự, số tài khoản, hoặc vị trí công việc..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full text-xs pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full text-xs pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
             />
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <span className="text-xs text-slate-500 font-semibold whitespace-nowrap">
-              Bank Rail:
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            <span className="text-xs text-slate-500 font-bold whitespace-nowrap">
+              Lọc theo ngân hàng:
             </span>
             <select
               value={bankFilter}
               onChange={(e) => setBankFilter(e.target.value)}
-              className="text-xs px-2.5 py-2 border border-slate-200 rounded-lg bg-white text-slate-700 font-medium focus:outline-none"
+              className="text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white text-slate-700 font-semibold focus:outline-none"
             >
-              <option value="ALL">All Banks</option>
-              <option value="VCB">Vietcombank (VCB)</option>
-              <option value="MB">MB Bank (MB)</option>
-              <option value="TCB">Techcombank (TCB)</option>
+              <option value="ALL">Tất cả ngân hàng</option>
+              <option value="VCB">Vietcombank</option>
+              <option value="MB">MB Bank</option>
+              <option value="TCB">Techcombank</option>
               <option value="ACB">ACB</option>
-              <option value="9PAY_WALLET">9Pay E-Wallet</option>
+              <option value="9PAY_WALLET">Ví điện tử 9Pay</option>
             </select>
           </div>
         </div>
 
         {/* Recipients Table */}
-        <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <thead className="bg-[#FAF9F6] text-slate-500 font-bold border-b border-slate-200/80 uppercase text-[11px] tracking-wider">
                 <tr>
-                  <th className="p-4">Contractor</th>
-                  <th className="p-4">Role & Email</th>
-                  <th className="p-4">Bank Rail</th>
-                  <th className="p-4">Account / Wallet</th>
-                  <th className="p-4">Verification</th>
-                  <th className="p-4 text-right">Lifetime Disbursed</th>
+                  <th className="py-4 px-5">Họ tên nhân sự</th>
+                  <th className="py-4 px-5">Vị trí & Email</th>
+                  <th className="py-4 px-5">Kênh ngân hàng</th>
+                  <th className="py-4 px-5">Số tài khoản / SĐT</th>
+                  <th className="py-4 px-5">Xác thực NAPAS</th>
+                  <th className="py-4 px-5 text-right">Tổng tiền đã nhận</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filtered.map((r) => (
-                  <tr key={r.id} className="hover:bg-slate-50 transition">
-                    <td className="p-4 font-bold text-slate-900">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-[11px]">
-                          {r.name.slice(0, 2).toUpperCase()}
+                {filtered.map((r, i) => {
+                  const gradient = AVATAR_COLORS[i % AVATAR_COLORS.length];
+                  return (
+                    <tr key={r.id} className="hover:bg-indigo-50/20 transition">
+                      <td className="py-4 px-5 font-bold text-slate-900">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${gradient} text-white flex items-center justify-center font-bold text-xs shadow-xs`}>
+                            {r.name.slice(0, 1).toUpperCase()}
+                          </div>
+                          <span className="text-sm">{r.name}</span>
                         </div>
-                        <span>{r.name}</span>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="text-slate-800 font-medium">{r.role}</div>
-                      <div className="text-[11px] text-slate-400">{r.email || '—'}</div>
-                    </td>
-                    <td className="p-4">
-                      <span className="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
-                        {r.bankCode}
-                      </span>
-                    </td>
-                    <td className="p-4 font-mono font-semibold text-slate-700">
-                      {r.accountNumber}
-                    </td>
-                    <td className="p-4">
-                      {r.isVerified ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                          <CheckCircle2 size={12} />
-                          <span>Verified</span>
+                      </td>
+                      <td className="py-4 px-5">
+                        <div className="text-slate-800 font-semibold">{r.role}</div>
+                        <div className="text-[11px] text-slate-400">{r.email || '—'}</div>
+                      </td>
+                      <td className="py-4 px-5">
+                        <span className="font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
+                          {r.bankCode}
                         </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
-                          <span>Pending</span>
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4 text-right font-mono font-bold text-slate-900">
-                      {formatLosslessAmount(r.totalPaidVND, 'VND')}
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="py-4 px-5 font-mono font-semibold text-slate-700">
+                        {r.accountNumber}
+                      </td>
+                      <td className="py-4 px-5">
+                        {r.isVerified ? (
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                            <BadgeCheck size={14} className="text-emerald-600" />
+                            <span>Đã xác minh</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+                            <span>Chờ kiểm tra</span>
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-4 px-5 text-right font-bold text-slate-900 tabular-nums text-sm">
+                        {formatLosslessAmount(r.totalPaidVND, 'VND')}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -246,13 +259,16 @@ export default function RecipientsPage() {
 
         {/* Modal: Add Beneficiary */}
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-                <h3 className="text-base font-bold text-slate-900">Add New Beneficiary</h3>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+            <div className="bg-white rounded-2xl shadow-soft-lg w-full max-w-lg p-6 sm:p-7 space-y-5 border border-slate-200">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">Thêm Nhân sự Thụ hưởng Mới</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">Lưu thông tin tài khoản ngân hàng để chi trả nhanh</p>
+                </div>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="text-slate-400 hover:text-slate-600 font-bold"
+                  className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold"
                 >
                   ✕
                 </button>
@@ -260,88 +276,89 @@ export default function RecipientsPage() {
 
               <form onSubmit={handleAddRecipient} className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
-                    Beneficiary Name *
+                  <label className="block font-bold text-slate-700 mb-1.5">
+                    Họ và tên đầy đủ (trên thẻ ngân hàng) *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Doan Van Hau"
+                    placeholder="Ví dụ: Đoàn Văn Hậu"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Role</label>
+                    <label className="block font-bold text-slate-700 mb-1.5">Vị trí công việc</label>
                     <input
                       type="text"
                       value={newRole}
                       onChange={(e) => setNewRole(e.target.value)}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      className="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Email</label>
+                    <label className="block font-bold text-slate-700 mb-1.5">Email liên hệ</label>
                     <input
                       type="email"
-                      placeholder="beneficiary@domain.vn"
+                      placeholder="nhansu@congty.vn"
                       value={newEmail}
                       onChange={(e) => setNewEmail(e.target.value)}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      className="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
-                      Bank Routing *
+                    <label className="block font-bold text-slate-700 mb-1.5">
+                      Ngân hàng thụ hưởng *
                     </label>
                     <select
                       value={newBankCode}
                       onChange={(e) => setNewBankCode(e.target.value)}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white"
+                      className="w-full text-xs px-3 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white font-semibold text-slate-800"
                     >
-                      <option value="VCB">Vietcombank (VCB)</option>
-                      <option value="MB">MB Bank (MB)</option>
-                      <option value="TCB">Techcombank (TCB)</option>
+                      <option value="VCB">Vietcombank</option>
+                      <option value="MB">MB Bank</option>
+                      <option value="TCB">Techcombank</option>
                       <option value="ACB">ACB</option>
-                      <option value="9PAY_WALLET">9Pay E-Wallet</option>
+                      <option value="VPB">VPBank</option>
+                      <option value="9PAY_WALLET">Ví điện tử 9Pay</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
-                      Account / Phone *
+                    <label className="block font-bold text-slate-700 mb-1.5">
+                      Số TK / SĐT Ví *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="9704..."
+                      placeholder="9704... hoặc 0912..."
                       value={newAccountNumber}
                       onChange={(e) => setNewAccountNumber(e.target.value)}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono"
+                      className="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
                     />
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
+                <div className="pt-4 border-t border-slate-100 flex justify-end gap-2.5">
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg font-semibold"
+                    className="px-4 py-2.5 text-slate-600 hover:bg-slate-100 rounded-xl font-bold"
                   >
-                    Cancel
+                    Huỷ bỏ
                   </button>
                   <button
                     type="submit"
                     disabled={formLoading}
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm disabled:opacity-50"
+                    className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-sm transition disabled:opacity-50"
                   >
-                    {formLoading ? 'Saving...' : 'Register Beneficiary'}
+                    {formLoading ? 'Đang lưu...' : 'Lưu vào Danh bạ'}
                   </button>
                 </div>
               </form>

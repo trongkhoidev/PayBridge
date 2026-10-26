@@ -6,12 +6,11 @@ import {
   ShieldCheck,
   Search,
   Clock,
-  Filter,
   CheckCircle2,
-  AlertTriangle,
   Building,
   Key,
   FileText,
+  BadgeCheck,
 } from 'lucide-react';
 
 interface AuditRow {
@@ -66,123 +65,125 @@ export default function AuditPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Audit & Compliance Settlement Ledger
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+              Sổ cái Kiểm toán & Đối soát Giao dịch
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Cryptographically timestamped, append-only records of every state transition, dual-control approval, and provider callback.
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Ghi nhận bất biến (append-only) mọi sự kiện tạo đợt chi, đối soát ngân hàng, chữ ký CFO và mã tham chiếu từ cổng 9Pay.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-semibold flex items-center gap-1.5">
-              <CheckCircle2 size={13} className="text-emerald-600" />
-              <span>Immutable Append-Only Log</span>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <span className="px-3.5 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xs">
+              <CheckCircle2 size={14} className="text-emerald-600" />
+              <span>Sổ cái Bất biến Không thể xoá</span>
             </span>
           </div>
         </div>
 
         {/* Security Invariants Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Recorded Transitions
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Tổng số bản ghi sự kiện
             </span>
             <span className="text-2xl font-black text-slate-900">{events.length}</span>
-            <span className="text-[10px] text-slate-400 block mt-1">Lifecycle Events</span>
+            <span className="text-xs text-slate-400 block">Sự kiện vòng đời chi trả</span>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              Dual-Control Signatures
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Chữ ký Kiểm soát kép (CFO)
             </span>
             <span className="text-2xl font-black text-indigo-700">
-              {events.filter((e) => e.eventType === 'BATCH_APPROVED').length}
+              {events.filter((e) => e.eventType === 'BATCH_APPROVED').length} Lượt duyệt
             </span>
-            <span className="text-[10px] text-indigo-600 block mt-1">
-              Authorized Approver Checkpoints
+            <span className="text-xs text-indigo-600 font-semibold block">
+              Được bảo vệ bởi 2 lớp thẩm quyền
             </span>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm">
-            <span className="text-[11px] font-semibold text-slate-500 block mb-1">
-              PII / Secret Redaction
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-soft space-y-1">
+            <span className="text-xs font-bold text-slate-500 block">
+              Bảo mật Thông tin & Dữ liệu riêng
             </span>
-            <span className="text-sm font-bold text-emerald-700 block mt-1">100% Redacted</span>
-            <span className="text-[10px] text-slate-400 block mt-1">
-              No private keys or credentials stored
+            <span className="text-sm font-extrabold text-emerald-700 block mt-1">
+              Khử định danh 100%
+            </span>
+            <span className="text-xs text-slate-400 block">
+              Không lưu trữ mật khẩu hay khoá bí mật
             </span>
           </div>
         </div>
 
         {/* Search & Filter */}
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex flex-col sm:flex-row items-center gap-3">
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-soft flex flex-col sm:flex-row items-center gap-3">
           <div className="relative flex-1 w-full">
             <Search
-              size={15}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
             />
             <input
               type="text"
-              placeholder="Filter by Actor ID, Batch Title, or Batch ID..."
+              placeholder="Tìm theo người thực hiện, tên đợt chi trả hoặc mã đợt..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full text-xs pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full text-xs pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
             />
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <span className="text-xs text-slate-500 font-semibold whitespace-nowrap">
-              Event Type:
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            <span className="text-xs text-slate-500 font-bold whitespace-nowrap">
+              Loại sự kiện:
             </span>
             <select
               value={eventFilter}
               onChange={(e) => setEventFilter(e.target.value)}
-              className="text-xs px-2.5 py-2 border border-slate-200 rounded-lg bg-white text-slate-700 font-medium focus:outline-none"
+              className="text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white text-slate-700 font-semibold focus:outline-none"
             >
-              <option value="ALL">All Events</option>
-              <option value="BATCH_CREATED">BATCH_CREATED</option>
-              <option value="BATCH_VALIDATED">BATCH_VALIDATED</option>
-              <option value="BATCH_APPROVED">BATCH_APPROVED</option>
-              <option value="BATCH_EXECUTION_STARTED">BATCH_EXECUTION_STARTED</option>
-              <option value="BATCH_EXECUTION_COMPLETED">BATCH_EXECUTION_COMPLETED</option>
+              <option value="ALL">Tất cả sự kiện</option>
+              <option value="BATCH_CREATED">Tạo đợt chi (BATCH_CREATED)</option>
+              <option value="BATCH_VALIDATED">Kiểm tra tài khoản (BATCH_VALIDATED)</option>
+              <option value="BATCH_APPROVED">Ký duyệt chi (BATCH_APPROVED)</option>
+              <option value="BATCH_EXECUTION_STARTED">Bắt đầu giải ngân (BATCH_EXECUTION_STARTED)</option>
+              <option value="BATCH_EXECUTION_COMPLETED">Hoàn tất chi trả (BATCH_EXECUTION_COMPLETED)</option>
             </select>
           </div>
         </div>
 
         {/* Ledger Table */}
-        <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <thead className="bg-[#FAF9F6] text-slate-500 font-bold border-b border-slate-200/80 uppercase text-[11px] tracking-wider">
                 <tr>
-                  <th className="p-4">Timestamp</th>
-                  <th className="p-4">Event Type</th>
-                  <th className="p-4">Batch</th>
-                  <th className="p-4">Authorized Actor</th>
-                  <th className="p-4">State Transition</th>
-                  <th className="p-4">Redacted Metadata</th>
+                  <th className="py-4 px-5">Thời gian ghi nhận</th>
+                  <th className="py-4 px-5">Loại sự kiện</th>
+                  <th className="py-4 px-5">Đợt chi trả liên quan</th>
+                  <th className="py-4 px-5">Người thực hiện</th>
+                  <th className="py-4 px-5">Chuyển trạng thái</th>
+                  <th className="py-4 px-5">Dữ liệu kiểm toán</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-slate-400 italic">
-                      No audit events match the current filter.
+                    <td colSpan={6} className="p-12 text-center text-slate-400 italic">
+                      Không có bản ghi nào khớp với bộ lọc tìm kiếm.
                     </td>
                   </tr>
                 ) : (
                   filtered.map((ev) => (
-                    <tr key={ev.id} className="hover:bg-slate-50 transition">
-                      <td className="p-4 font-mono text-[11px] text-slate-500">
-                        {new Date(ev.createdAt).toLocaleString()}
+                    <tr key={ev.id} className="hover:bg-indigo-50/20 transition">
+                      <td className="py-4 px-5 font-mono text-[11px] text-slate-500">
+                        {new Date(ev.createdAt).toLocaleString('vi-VN')}
                       </td>
-                      <td className="p-4">
-                        <span className="font-mono font-bold text-[11px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
+                      <td className="py-4 px-5">
+                        <span className="font-mono font-bold text-[11px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-full">
                           {ev.eventType}
                         </span>
                       </td>
-                      <td className="p-4 font-semibold text-slate-900">
+                      <td className="py-4 px-5 font-bold text-slate-900">
                         <a
                           href={`/batches/${ev.batchId}`}
                           className="hover:text-indigo-600 hover:underline"
@@ -190,10 +191,10 @@ export default function AuditPage() {
                           {ev.batchTitle || ev.batchId}
                         </a>
                       </td>
-                      <td className="p-4 font-mono font-semibold text-slate-700">
+                      <td className="py-4 px-5 font-mono font-semibold text-slate-700">
                         {ev.actorId}
                       </td>
-                      <td className="p-4">
+                      <td className="py-4 px-5">
                         {ev.fromStatus && ev.toStatus ? (
                           <span className="font-semibold text-slate-700">
                             {ev.fromStatus} →{' '}
@@ -203,7 +204,7 @@ export default function AuditPage() {
                           <span className="text-slate-400">—</span>
                         )}
                       </td>
-                      <td className="p-4 font-mono text-[11px] text-slate-500 max-w-xs truncate">
+                      <td className="py-4 px-5 font-mono text-[11px] text-slate-500 max-w-xs truncate">
                         {ev.metadataRedacted
                           ? JSON.stringify(ev.metadataRedacted)
                           : 'None'}

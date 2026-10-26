@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ShieldCheck, Key, AlertTriangle, CheckCircle2, Lock, X } from 'lucide-react';
+import { ShieldCheck, Key, AlertTriangle, CheckCircle2, Lock, X, Fingerprint, Coins } from 'lucide-react';
 import { formatLosslessAmount } from '@/lib/utils/currency';
 import { PayrollBatch } from '@/types';
 
@@ -18,7 +18,7 @@ export function DualControlSignoffModal({
   onClose,
   onConfirm,
 }: DualControlSignoffModalProps) {
-  const [approverName, setApproverName] = useState('Executive Approver (CFO / Treasury)');
+  const [approverName, setApproverName] = useState('Lê Thu Hằng (Giám đốc Tài chính / CFO)');
   const [securityPin, setSecurityPin] = useState('889922');
   const [attestationChecked, setAttestationChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,26 +38,26 @@ export function DualControlSignoffModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-150">
-      <div className="bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl w-full max-w-lg text-slate-100 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-soft-lg w-full max-w-lg text-slate-800 overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold">
-              <ShieldCheck size={20} />
+        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-emerald-50/50 via-white to-indigo-50/40">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shadow-xs">
+              <ShieldCheck size={22} />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white tracking-tight">
-                Dual-Control Executive Sign-Off
+              <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
+                Ký duyệt Chi trả Kiểm soát kép
               </h3>
-              <p className="text-[11px] text-slate-400 font-mono">
-                Mandate Policy SEC-804 • Quorum 1 of 1
+              <p className="text-xs text-slate-500 font-medium">
+                Quy chuẩn SEC-804 • Xác nhận bởi Giám đốc Tài chính (CFO)
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+            className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold transition"
           >
             <X size={18} />
           </button>
@@ -66,60 +66,60 @@ export function DualControlSignoffModal({
         {/* Content Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5 text-xs">
           {/* Policy Alert Card */}
-          <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-200/90 space-y-1">
-            <div className="flex items-center gap-2 font-bold text-amber-300">
-              <AlertTriangle size={15} />
-              <span>Cryptographic Authorization Mandate</span>
+          <div className="p-4 bg-emerald-50/80 border border-emerald-200/80 rounded-2xl text-emerald-900 space-y-1">
+            <div className="flex items-center gap-2 font-bold text-emerald-800">
+              <CheckCircle2 size={16} className="text-emerald-600" />
+              <span>Bảo vệ An toàn Ngân sách Doanh nghiệp</span>
             </div>
-            <p className="text-[11px] leading-relaxed text-amber-200/80">
-              In accordance with financial separation of duties, this batch requires explicit dual-control authorization before funds can be routed to the 9Pay NAPAS 24/7 switch.
+            <p className="text-[11px] leading-relaxed text-emerald-800/90">
+              Để đảm bảo quyền lợi của nhân viên và minh bạch tài chính, đợt chi trả bắt buộc cần xác nhận của người phê duyệt trước khi gửi lệnh chuyển mạch đến cổng 9Pay và ngân hàng NAPAS 24/7.
             </p>
           </div>
 
           {/* Batch Summary Review Box */}
-          <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 space-y-3">
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">Payroll Batch Title:</span>
-              <span className="font-bold text-white text-right max-w-[240px] truncate">
+          <div className="bg-[#FAF9F6] border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2.5">
+            <div className="flex items-center justify-between text-slate-600">
+              <span className="font-medium text-slate-500">Tên đợt chi trả:</span>
+              <span className="font-bold text-slate-900 text-right max-w-[240px] truncate">
                 {batch.title}
               </span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">Total Settlement Budget:</span>
-              <span className="font-bold font-mono text-emerald-400 text-sm">
+            <div className="flex items-center justify-between text-slate-600">
+              <span className="font-medium text-slate-500">Tổng số tiền giải ngân:</span>
+              <span className="font-extrabold text-emerald-700 text-base tabular-nums">
                 {formatLosslessAmount(batch.sourceAmountTotal, batch.asset)}
               </span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">Allocated Beneficiaries:</span>
-              <span className="font-bold text-white">{batch.items.length} Vietnamese Contractors</span>
+            <div className="flex items-center justify-between text-slate-600">
+              <span className="font-medium text-slate-500">Số nhân sự nhận tiền:</span>
+              <span className="font-bold text-slate-900">{batch.items.length} Người</span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
-              <span className="text-slate-400">Disbursement Rail:</span>
-              <span className="font-mono text-xs uppercase text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                {batch.provider} (Chi Hộ Testnet)
+            <div className="flex items-center justify-between text-slate-600">
+              <span className="font-medium text-slate-500">Cổng thanh toán:</span>
+              <span className="font-semibold text-xs uppercase text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                {batch.provider === 'mock' ? '9Pay Sandbox' : batch.provider}
               </span>
             </div>
           </div>
 
           {/* Approver Credential Fields */}
-          <div className="space-y-3 pt-1">
+          <div className="space-y-3.5 pt-1">
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                Authorized Signer Identity
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Người ký duyệt (CFO / Ban Giám đốc)
               </label>
               <input
                 type="text"
                 required
                 value={approverName}
                 onChange={(e) => setApproverName(e.target.value)}
-                className="w-full text-xs px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-medium"
+                className="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                Security Passkey / FIDO2 Attestation PIN
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Mã xác thực bảo mật / PIN phê duyệt
               </label>
               <div className="relative">
                 <input
@@ -127,47 +127,47 @@ export function DualControlSignoffModal({
                   required
                   value={securityPin}
                   onChange={(e) => setSecurityPin(e.target.value)}
-                  className="w-full text-xs pl-3 pr-9 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono tracking-widest"
+                  className="w-full text-xs pl-3.5 pr-10 py-2.5 bg-white border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono tracking-widest font-bold"
                 />
                 <Key
-                  size={15}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  size={16}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400"
                 />
               </div>
             </div>
           </div>
 
           {/* Attestation Checkbox */}
-          <label className="flex items-start gap-2.5 p-3 bg-slate-800/40 border border-slate-700/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition">
+          <label className="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200/90 rounded-2xl cursor-pointer hover:bg-indigo-50/20 transition">
             <input
               type="checkbox"
               required
               checked={attestationChecked}
               onChange={(e) => setAttestationChecked(e.target.checked)}
-              className="mt-0.5 rounded border-slate-600 bg-slate-700 text-indigo-600 focus:ring-0"
+              className="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 w-4 h-4"
             />
-            <span className="text-[11px] text-slate-300 leading-snug">
-              I certify that all {batch.items.length} beneficiary bank accounts and exact amounts have been verified against contractor work orders and approved for settlement release.
+            <span className="text-xs text-slate-700 leading-relaxed font-medium">
+              Tôi xác nhận đã đối soát đầy đủ bảng chấm công và danh sách tài khoản của {batch.items.length} nhân sự. Đồng ý cấp phép giải ngân đợt chi trả này.
             </span>
           </label>
 
           {/* Actions */}
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 text-slate-400 hover:text-white rounded-lg transition font-medium"
+              className="px-4 py-2.5 text-slate-600 hover:bg-slate-100 rounded-xl transition font-bold"
             >
-              Cancel
+              Huỷ bỏ
             </button>
             <button
               type="submit"
               disabled={!attestationChecked || isSubmitting}
-              className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-900/40 transition disabled:opacity-40 flex items-center gap-2"
+              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-sm shadow-emerald-600/30 transition disabled:opacity-40 flex items-center gap-2 hover:shadow-md"
             >
-              <Lock size={14} />
-              <span>{isSubmitting ? 'Signing Certificate...' : 'Sign & Release Batch (FIDO2)'}</span>
+              <Lock size={15} />
+              <span>{isSubmitting ? 'Đang cấp chữ ký...' : 'Ký duyệt & Cho phép giải ngân'}</span>
             </button>
           </div>
         </form>

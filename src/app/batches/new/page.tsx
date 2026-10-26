@@ -14,6 +14,10 @@ import {
   Building,
   Users,
   CreditCard,
+  HelpCircle,
+  Coins,
+  Send,
+  Zap,
 } from 'lucide-react';
 
 interface RecipientRow {
@@ -25,19 +29,19 @@ interface RecipientRow {
 
 const SAMPLE_RECIPIENTS: RecipientRow[] = [
   {
-    recipientName: 'Nguyen Van A',
+    recipientName: 'Nguyễn Văn An',
     recipientReference: '9704050012345678',
     bankCode: 'VCB',
     amount: '15000000',
   },
   {
-    recipientName: 'Tran Thi B',
+    recipientName: 'Trần Thị Mai',
     recipientReference: '9704220087654321',
     bankCode: 'MB',
     amount: '22000000',
   },
   {
-    recipientName: 'Le Hoang C',
+    recipientName: 'Lê Hoàng Long',
     recipientReference: '0912345678',
     bankCode: '9PAY_WALLET',
     amount: '8500000',
@@ -47,9 +51,9 @@ const SAMPLE_RECIPIENTS: RecipientRow[] = [
 export default function NewBatchPage() {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [title, setTitle] = useState('October 2026 Core Engineering Payroll');
+  const [title, setTitle] = useState('Đợt chi trả lương & thù lao tháng này');
   const [asset] = useState('VND');
-  const [memo, setMemo] = useState('Bi-weekly sprint settlement for offshore contractors');
+  const [memo, setMemo] = useState('Chi trả lương định kỳ hai tuần cho đội ngũ kỹ sư tại Việt Nam');
   const [recipients, setRecipients] = useState<RecipientRow[]>([
     { recipientName: '', recipientReference: '', bankCode: 'VCB', amount: '' },
   ]);
@@ -94,7 +98,7 @@ export default function NewBatchPage() {
   };
 
   const handleLoadSample = () => {
-    setTitle('Sprint 42 Offshore Contractor Batch');
+    setTitle('Đợt chi trả Sprint 42 (Mẫu 3 nhân sự)');
     setRecipients(SAMPLE_RECIPIENTS);
   };
 
@@ -124,12 +128,12 @@ export default function NewBatchPage() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to create payout batch');
+        throw new Error(data.error || 'Không thể tạo đợt chi trả');
       }
 
       router.push(`/batches/${data.data.id}`);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Unknown error during submission');
+      setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi không xác định');
       setLoading(false);
     }
   };
@@ -141,162 +145,163 @@ export default function NewBatchPage() {
         <div className="flex items-center justify-between">
           <a
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition"
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-indigo-600 transition"
           >
-            <ArrowLeft size={14} />
-            <span>Back to Batches Overview</span>
+            <ArrowLeft size={15} />
+            <span>Quay lại trang danh sách đợt chi</span>
           </a>
           <button
             type="button"
             onClick={handleLoadSample}
-            className="text-xs bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition"
+            className="text-xs bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 transition shadow-xs"
           >
-            <Sparkles size={14} />
-            <span>⚡ Load 3 Sample Recipients</span>
+            <Sparkles size={14} className="text-amber-500" />
+            <span>⚡ Nạp nhanh danh sách mẫu 3 nhân sự</span>
           </button>
         </div>
 
         {/* Stepper Progress Bar */}
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm">
-          <div className="grid grid-cols-3 gap-2">
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-soft">
+          <div className="grid grid-cols-3 gap-3">
             <button
               onClick={() => setStep(1)}
-              className={`flex items-center gap-2 text-left p-2 rounded-lg transition ${
+              className={`flex items-center gap-3 text-left p-3 rounded-xl transition ${
                 step === 1
-                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-800'
                   : 'text-slate-500 hover:bg-slate-50'
               }`}
             >
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  step === 1 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold ${
+                  step === 1 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700'
                 }`}
               >
                 1
               </div>
               <div>
-                <p className="text-xs font-bold">Specification</p>
-                <p className="text-[10px] text-slate-400 hidden sm:block">Title & Rail</p>
+                <p className="text-xs font-bold text-slate-900">Thông tin đợt chi</p>
+                <p className="text-[11px] text-slate-400 hidden sm:block">Tên đợt & cổng tiền tệ</p>
               </div>
             </button>
 
             <button
               onClick={() => setStep(2)}
-              className={`flex items-center gap-2 text-left p-2 rounded-lg transition ${
+              className={`flex items-center gap-3 text-left p-3 rounded-xl transition ${
                 step === 2
-                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-800'
                   : 'text-slate-500 hover:bg-slate-50'
               }`}
             >
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  step === 2 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold ${
+                  step === 2 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700'
                 }`}
               >
                 2
               </div>
               <div>
-                <p className="text-xs font-bold">Recipient Roster</p>
-                <p className="text-[10px] text-slate-400 hidden sm:block">{recipients.length} Beneficiaries</p>
+                <p className="text-xs font-bold text-slate-900">Danh sách người nhận</p>
+                <p className="text-[11px] text-slate-400 hidden sm:block">{recipients.length} nhân sự thụ hưởng</p>
               </div>
             </button>
 
             <button
               onClick={() => setStep(3)}
-              className={`flex items-center gap-2 text-left p-2 rounded-lg transition ${
+              className={`flex items-center gap-3 text-left p-3 rounded-xl transition ${
                 step === 3
-                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                  ? 'bg-indigo-50 border border-indigo-200 text-indigo-800'
                   : 'text-slate-500 hover:bg-slate-50'
               }`}
             >
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                  step === 3 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold ${
+                  step === 3 ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700'
                 }`}
               >
                 3
               </div>
               <div>
-                <p className="text-xs font-bold">Budget Audit</p>
-                <p className="text-[10px] text-slate-400 hidden sm:block">Pre-flight Validation</p>
+                <p className="text-xs font-bold text-slate-900">Đối soát & Xác nhận</p>
+                <p className="text-[11px] text-slate-400 hidden sm:block">Kiểm tra tổng tiền chính xác</p>
               </div>
             </button>
           </div>
         </div>
 
         {error && (
-          <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center gap-2">
-            <span className="font-bold">Error:</span> {error}
+          <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-2xl flex items-center gap-2">
+            <span className="font-bold">Lỗi:</span> {error}
           </div>
         )}
 
         {/* Step 1: Specification */}
         {step === 1 && (
-          <div className="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm space-y-5">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-soft space-y-6">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Step 1: Batch Specification</h2>
-              <p className="text-xs text-slate-500">
-                Define the payroll batch title, target settlement currency, and internal notes.
+              <h2 className="text-lg font-bold text-slate-900">Bước 1: Thiết lập Thông tin Đợt chi trả</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Điền tên đợt thanh toán, tiền tệ và ghi chú nội bộ để kế toán và CFO dễ dàng đối soát.
               </p>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Batch Title *
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Tên đợt chi trả *
                 </label>
                 <input
                   type="text"
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. October 2026 Core Engineering Payroll"
-                  className="w-full text-sm px-3.5 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Ví dụ: Lương lập trình viên Sprint 42"
+                  className="w-full text-sm px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Settlement Rail & Asset
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Đồng tiền & Cổng giải ngân
                   </label>
-                  <div className="flex items-center gap-2 p-2.5 bg-slate-100 border border-slate-300 rounded-lg text-slate-700 text-xs font-medium">
-                    <CreditCard size={15} className="text-indigo-600" />
-                    <span>Vietnamese Dong (VND via 9Pay Rail)</span>
+                  <div className="flex items-center gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold">
+                    <CreditCard size={16} className="text-indigo-600" />
+                    <span>Việt Nam Đồng (VND qua cổng 9Pay & NAPAS 24/7)</span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Originating Tenant
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Đơn vị chi trả (Doanh nghiệp)
                   </label>
-                  <div className="flex items-center gap-2 p-2.5 bg-slate-100 border border-slate-300 rounded-lg text-slate-700 text-xs font-medium">
-                    <Building size={15} className="text-slate-500" />
-                    <span>Acme Global Ltd (emp_acme_vn)</span>
+                  <div className="flex items-center gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold">
+                    <Building size={16} className="text-slate-500" />
+                    <span>Acme Global Ltd (Mã: emp_acme_vn)</span>
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Internal Memo / Audit Note
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Ghi chú nội bộ cho kế toán & duyệt chi
                 </label>
                 <textarea
                   rows={2}
                   value={memo}
                   onChange={(e) => setMemo(e.target.value)}
-                  className="w-full text-xs px-3.5 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Ghi chú đối soát hợp đồng hoặc nhiệm vụ hoàn thành..."
+                  className="w-full text-xs px-4 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                 />
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex justify-end">
+            <div className="pt-5 border-t border-slate-100 flex justify-end">
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition"
+                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-indigo-600/30 hover:shadow-md"
               >
-                Continue to Recipient Roster →
+                Tiếp tục đến danh sách người nhận →
               </button>
             </div>
           </div>
@@ -304,82 +309,83 @@ export default function NewBatchPage() {
 
         {/* Step 2: Recipient Roster */}
         {step === 2 && (
-          <div className="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm space-y-5">
-            <div className="flex items-center justify-between">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-soft space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-base font-bold text-slate-900">Step 2: Recipient Roster</h2>
-                <p className="text-xs text-slate-500">
-                  Input contractor bank details and payout amounts. Every figure is handled with integer precision.
+                <h2 className="text-lg font-bold text-slate-900">Bước 2: Danh sách Người nhận Thù lao</h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Nhập họ tên, số tài khoản ngân hàng hoặc số điện thoại ví 9Pay. Số tiền được tính toán nguyên vẹn, không làm tròn sai số.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleAddRecipient}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 rounded-lg text-xs font-semibold transition"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-xs font-bold transition shadow-xs self-start sm:self-auto"
               >
-                <Plus size={14} />
-                <span>Add Row</span>
+                <Plus size={15} />
+                <span>+ Thêm người nhận</span>
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               {recipients.map((rec, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 bg-slate-50/80 border border-slate-200 rounded-xl grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center hover:bg-slate-50 transition"
+                  className="p-4 bg-slate-50/80 border border-slate-200/90 rounded-2xl grid grid-cols-1 sm:grid-cols-12 gap-3 items-center hover:bg-white hover:border-indigo-200 transition"
                 >
                   <div className="sm:col-span-4">
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
-                      Beneficiary Full Name
+                    <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                      Họ và tên người nhận *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Nguyen Van A"
+                      placeholder="Ví dụ: Nguyễn Văn An"
                       value={rec.recipientName}
                       onChange={(e) =>
                         handleUpdateRecipient(idx, 'recipientName', e.target.value)
                       }
-                      className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-medium"
+                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                     />
                   </div>
 
                   <div className="sm:col-span-3">
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
-                      Account / Wallet Phone
+                    <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                      Số TK Ngân hàng / SĐT Ví *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="9704... or 0912..."
+                      placeholder="9704... hoặc 0912..."
                       value={rec.recipientReference}
                       onChange={(e) =>
                         handleUpdateRecipient(idx, 'recipientReference', e.target.value)
                       }
-                      className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono"
+                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
                     />
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
-                      Routing Bank
+                    <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                      Ngân hàng
                     </label>
                     <select
                       value={rec.bankCode}
                       onChange={(e) => handleUpdateRecipient(idx, 'bankCode', e.target.value)}
-                      className="w-full text-xs px-2 py-1.5 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold text-slate-700"
+                      className="w-full text-xs px-2.5 py-2 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-800"
                     >
-                      <option value="VCB">Vietcombank (VCB)</option>
-                      <option value="MB">MB Bank (MB)</option>
-                      <option value="TCB">Techcombank (TCB)</option>
+                      <option value="VCB">Vietcombank</option>
+                      <option value="MB">MB Bank</option>
+                      <option value="TCB">Techcombank</option>
                       <option value="ACB">ACB</option>
-                      <option value="9PAY_WALLET">9Pay E-Wallet</option>
+                      <option value="VPB">VPBank</option>
+                      <option value="9PAY_WALLET">Ví điện tử 9Pay</option>
                     </select>
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
-                      Amount (VND)
+                    <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                      Số tiền (VND) *
                     </label>
                     <input
                       type="text"
@@ -387,19 +393,19 @@ export default function NewBatchPage() {
                       placeholder="15000000"
                       value={rec.amount}
                       onChange={(e) => handleUpdateRecipient(idx, 'amount', e.target.value)}
-                      className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono font-bold text-slate-900"
+                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-900 tabular-nums"
                     />
                   </div>
 
-                  <div className="sm:col-span-1 flex justify-center pt-3 sm:pt-0">
+                  <div className="sm:col-span-1 flex justify-center pt-2 sm:pt-0">
                     {recipients.length > 1 && (
                       <button
                         type="button"
                         onClick={() => handleRemoveRecipient(idx)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition"
-                        title="Remove row"
+                        className="p-2 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition"
+                        title="Xoá dòng này"
                       >
-                        <Trash2 size={15} />
+                        <Trash2 size={16} />
                       </button>
                     )}
                   </div>
@@ -408,16 +414,18 @@ export default function NewBatchPage() {
             </div>
 
             {/* Lossless Real-time Calculation Badge */}
-            <div className="p-4 bg-indigo-50/70 border border-indigo-200/80 rounded-xl flex items-center justify-between">
+            <div className="p-4 sm:p-5 bg-gradient-to-r from-indigo-50/80 via-white to-indigo-50/40 border border-indigo-200/80 rounded-2xl flex items-center justify-between shadow-xs">
               <div>
-                <p className="text-xs font-semibold text-indigo-900">Computed Roster Total:</p>
-                <p className="text-[11px] text-indigo-600">{recipients.length} item(s) allocated</p>
+                <p className="text-xs font-bold text-indigo-950">Tổng số tiền đợt chi này:</p>
+                <p className="text-[11px] text-indigo-600 mt-0.5">
+                  Phân bổ cho {recipients.length} người nhận thụ hưởng
+                </p>
               </div>
               <div className="text-right">
-                <span className="text-base sm:text-lg font-black font-mono text-indigo-700">
+                <span className="text-lg sm:text-xl font-black text-indigo-700 tabular-nums block">
                   {formatLosslessAmount(liveTotal, asset)}
                 </span>
-                <p className="text-[10px] text-indigo-500">Lossless BigInt arithmetic</p>
+                <p className="text-[10px] text-indigo-500 font-medium">Toán học chính xác BigInt không sai số</p>
               </div>
             </div>
 
@@ -425,16 +433,16 @@ export default function NewBatchPage() {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800"
+                className="px-4 py-2.5 text-xs font-bold text-slate-600 hover:text-slate-800"
               >
-                ← Back
+                ← Quay lại Bước 1
               </button>
               <button
                 type="button"
                 onClick={() => setStep(3)}
-                className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition"
+                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-indigo-600/30"
               >
-                Review & Pre-flight Audit →
+                Kiểm tra & Đối soát →
               </button>
             </div>
           </div>
@@ -442,63 +450,64 @@ export default function NewBatchPage() {
 
         {/* Step 3: Review & Pre-flight Audit */}
         {step === 3 && (
-          <div className="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm space-y-6">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-soft space-y-6">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Step 3: Budget & Pre-Flight Audit</h2>
-              <p className="text-xs text-slate-500">
-                Confirm all figures before generating the immutable Draft batch.
+              <h2 className="text-lg font-bold text-slate-900">Bước 3: Đối soát Ngân sách & Xác nhận Bản nháp</h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Kiểm tra lại toàn bộ danh sách trước khi gửi lên hệ thống. Đợt chi sẽ ở trạng thái Bản nháp và cần được kiểm tra thông tin ngân hàng trước khi CFO ký duyệt.
               </p>
             </div>
 
             {/* Audit Checklist Box */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                <span className="text-xs text-slate-500 block mb-1">Batch Total</span>
-                <span className="text-lg font-black font-mono text-slate-900">
+              <div className="p-5 bg-[#FAF9F6] border border-slate-200/90 rounded-2xl space-y-1">
+                <span className="text-xs font-bold text-slate-500 block">Tổng ngân sách chi trả</span>
+                <span className="text-xl font-black text-slate-900 block tabular-nums">
                   {formatLosslessAmount(liveTotal, asset)}
                 </span>
-                <span className="text-[10px] text-emerald-600 font-semibold block mt-1">
-                  ✓ Verified Lossless
+                <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                  <CheckCircle2 size={13} />
+                  <span>Chính xác 100% không làm tròn</span>
                 </span>
               </div>
 
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                <span className="text-xs text-slate-500 block mb-1">Total Beneficiaries</span>
-                <span className="text-lg font-black text-slate-900">{recipients.length} Persons</span>
-                <span className="text-[10px] text-indigo-600 font-semibold block mt-1">
-                  Vietnam Domestic Rail
+              <div className="p-5 bg-[#FAF9F6] border border-slate-200/90 rounded-2xl space-y-1">
+                <span className="text-xs font-bold text-slate-500 block">Số nhân sự nhận tiền</span>
+                <span className="text-xl font-black text-slate-900 block">{recipients.length} Người</span>
+                <span className="text-xs text-indigo-600 font-semibold block">
+                  Chuyển mạch NAPAS 24/7
                 </span>
               </div>
 
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                <span className="text-xs text-slate-500 block mb-1">Execution Provider</span>
-                <span className="text-sm font-bold text-amber-700 uppercase block">
-                  9Pay Testnet Adapter
+              <div className="p-5 bg-[#FAF9F6] border border-slate-200/90 rounded-2xl space-y-1">
+                <span className="text-xs font-bold text-slate-500 block">Kênh kết nối</span>
+                <span className="text-sm font-extrabold text-amber-800 uppercase block mt-1">
+                  9Pay Testnet Gateway
                 </span>
-                <span className="text-[10px] text-slate-400 block mt-1">Sandbox Simulation</span>
+                <span className="text-xs text-slate-500 block">Mô phỏng thử nghiệm an toàn</span>
               </div>
             </div>
 
             {/* Review Table */}
-            <div className="border border-slate-200 rounded-xl overflow-hidden text-xs">
+            <div className="border border-slate-200 rounded-2xl overflow-hidden text-xs">
               <table className="w-full text-left">
-                <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <thead className="bg-[#FAF9F6] text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
                   <tr>
-                    <th className="p-3">#</th>
-                    <th className="p-3">Beneficiary</th>
-                    <th className="p-3">Routing Account</th>
-                    <th className="p-3">Bank</th>
-                    <th className="p-3 text-right">Amount</th>
+                    <th className="py-3.5 px-4">#</th>
+                    <th className="py-3.5 px-4">Người nhận</th>
+                    <th className="py-3.5 px-4">Số tài khoản / SĐT</th>
+                    <th className="py-3.5 px-4">Ngân hàng</th>
+                    <th className="py-3.5 px-4 text-right">Số tiền</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {recipients.map((r, i) => (
-                    <tr key={i} className="hover:bg-slate-50">
-                      <td className="p-3 text-slate-400 font-mono">{i + 1}</td>
-                      <td className="p-3 font-semibold text-slate-800">{r.recipientName}</td>
-                      <td className="p-3 font-mono text-slate-600">{r.recipientReference}</td>
-                      <td className="p-3 font-semibold text-indigo-700">{r.bankCode}</td>
-                      <td className="p-3 text-right font-mono font-bold text-slate-900">
+                    <tr key={i} className="hover:bg-slate-50/80">
+                      <td className="py-3.5 px-4 text-slate-400 font-mono">{i + 1}</td>
+                      <td className="py-3.5 px-4 font-bold text-slate-900">{r.recipientName}</td>
+                      <td className="py-3.5 px-4 font-mono text-slate-600">{r.recipientReference}</td>
+                      <td className="py-3.5 px-4 font-semibold text-indigo-700">{r.bankCode}</td>
+                      <td className="py-3.5 px-4 text-right font-bold text-slate-900 tabular-nums text-sm">
                         {formatLosslessAmount(r.amount, asset)}
                       </td>
                     </tr>
@@ -507,30 +516,29 @@ export default function NewBatchPage() {
               </table>
             </div>
 
-            <div className="p-3 bg-amber-50/70 border border-amber-200 text-amber-900 text-xs rounded-xl flex items-center gap-2">
-              <ShieldCheck size={16} className="text-amber-600 shrink-0" />
-              <span>
-                <strong>Dual-Control Invariant:</strong> Creating this batch will register it in{' '}
-                <code className="font-mono font-bold">DRAFT</code> status. It cannot be executed
-                until an authorized Approver signs off.
-              </span>
+            <div className="p-4 bg-amber-50/80 border border-amber-200 text-amber-900 text-xs rounded-2xl flex items-start gap-3">
+              <ShieldCheck size={18} className="text-amber-600 shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
+                <strong>Quy tắc An toàn Kiểm soát kép (SEC-804):</strong> Sau khi tạo, đợt chi trả sẽ được lưu ở trạng thái{' '}
+                <span className="font-bold underline">BẢN NHÁP (DRAFT)</span>. Hệ thống tuyệt đối không tự ý trừ tiền cho đến khi được kiểm tra hợp lệ và có chữ ký xác nhận của người có thẩm quyền (CFO).
+              </div>
             </div>
 
             <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800"
+                className="px-4 py-2.5 text-xs font-bold text-slate-600 hover:text-slate-800"
               >
-                ← Edit Roster
+                ← Chỉnh sửa danh sách
               </button>
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-md shadow-indigo-600/20 transition disabled:opacity-50"
+                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/30 transition disabled:opacity-50"
               >
-                {loading ? 'Creating Batch...' : 'Confirm & Register Draft Batch 🚀'}
+                {loading ? 'Đang tạo đợt chi trả...' : 'Xác nhận & Đăng ký Đợt chi trả 🚀'}
               </button>
             </div>
           </div>
