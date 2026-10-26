@@ -1,7 +1,10 @@
 # Design System Specification (Stitch Design) — PayBridge
 
+> **Google Stitch Ready**: This design specification and its companion screen prompts in [`docs/GOOGLE_STITCH_DESIGN_SPEC.md`](file:///Users/admin/repos/PayBridge/docs/GOOGLE_STITCH_DESIGN_SPEC.md) are calibrated for **Google Stitch** (Google Labs AI UI Prototyping).
+
 ## 1. Design Vision & Philosophy
 **PayBridge** provides multinational finance teams, HR managers, and founders with an executive, institutional-grade settlement portal for contractor and freelancer payrolls in Vietnam. 
+ 
 
 - **Fintech Precision & Trust**: High-contrast, clean elevation inspired by top-tier financial software (Stripe, Mercury, Wise). Every figure is displayed with lossless decimal fidelity.
 - **Cognitive Clarity & Progressive Disclosure**: Multi-step payout lifecycle (`Draft` → `Validated` → `Approved` → `Processing` → `Completed`) with clear visual progress tracks, ensuring approvers always understand what they are signing off on.
