@@ -8,7 +8,7 @@ import { PayrollBatch } from '@/types';
 import { formatLosslessAmount, sumAmounts } from '@/lib/utils/currency';
 import { GeminiAdvisorDrawer } from '@/components/modals/GeminiAdvisorDrawer';
 import {
-  PlusCircle,
+  Plus,
   Sparkles,
   RefreshCw,
   ArrowRight,
@@ -18,8 +18,7 @@ import {
   CheckCircle2,
   Users,
   Coins,
-  Send,
-  Zap,
+  Search,
 } from 'lucide-react';
 
 export default function DashboardOverviewPage() {
@@ -27,6 +26,7 @@ export default function DashboardOverviewPage() {
   const [batches, setBatches] = useState<PayrollBatch[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
   const [demoSimulating, setDemoSimulating] = useState(false);
   const [aiDrawerBatch, setAiDrawerBatch] = useState<PayrollBatch | null>(null);
 
@@ -63,13 +63,16 @@ export default function DashboardOverviewPage() {
   const pendingApprovalCount = batches.filter((b) => b.status === 'VALIDATED').length;
   const draftCount = batches.filter((b) => b.status === 'DRAFT').length;
 
-  // Filter batches by tab
+  // Filter batches by tab & search query
   const filteredBatches = batches.filter((b) => {
-    if (filterStatus === 'ALL') return true;
-    return b.status === filterStatus;
+    const matchesTab = filterStatus === 'ALL' || b.status === filterStatus;
+    const matchesSearch =
+      b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      b.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTab && matchesSearch;
   });
 
-  // Instant 1-Click Demo Simulator: creates, validates, approves & executes a 3-recipient batch
+  // 1-Click Demo Simulator: creates, validates, approves & executes a 3-recipient batch
   const handleRunFullDemoFlow = async () => {
     setDemoSimulating(true);
     try {
@@ -143,257 +146,237 @@ export default function DashboardOverviewPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {/* Human Welcome & Greeting Banner */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-white via-indigo-50/40 to-amber-50/30 p-6 sm:p-7 rounded-2xl border border-slate-200/90 shadow-soft">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
-            <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold border border-indigo-100">
-                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
-                <span>Cổng thanh toán tự động & đối soát an toàn</span>
-              </div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                Xin chào, Acme Global! 👋
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-                Hôm nay bạn có thể tạo đợt chi trả mới, đối soát tài khoản ngân hàng NAPAS 24/7 và ký duyệt kiểm soát kép để giải ngân tức thì cho nhân sự tại Việt Nam.
-              </p>
-            </div>
+        {/* Vercel Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-zinc-200">
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight text-zinc-950">
+              Đợt chi trả nhân sự
+            </h1>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Quản lý, đối soát và giải ngân cho đội ngũ kỹ sư và freelancer tại Việt Nam.
+            </p>
+          </div>
 
-            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <button
-                onClick={() => fetchBatches()}
-                className="p-2.5 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition"
-                title="Làm mới dữ liệu"
-              >
-                <RefreshCw size={16} />
-              </button>
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => fetchBatches()}
+              className="p-2 text-zinc-600 hover:text-black bg-white border border-zinc-200 hover:bg-zinc-50 rounded-md shadow-vercel-sm transition"
+              title="Làm mới danh sách"
+            >
+              <RefreshCw size={14} />
+            </button>
 
-              <button
-                onClick={() => {
-                  if (batches.length > 0) setAiDrawerBatch(batches[0]);
-                }}
-                disabled={batches.length === 0}
-                className="px-4 py-2.5 text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition flex items-center gap-2 disabled:opacity-40"
-              >
-                <Sparkles size={15} className="text-amber-500" />
-                <span>Trợ lý Rủi ro AI</span>
-              </button>
+            <button
+              onClick={() => {
+                if (batches.length > 0) setAiDrawerBatch(batches[0]);
+              }}
+              disabled={batches.length === 0}
+              className="px-3 py-1.5 text-xs font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-md shadow-vercel-sm transition flex items-center gap-1.5 disabled:opacity-40"
+            >
+              <Sparkles size={13} className="text-zinc-500" />
+              <span>Trợ lý Rủi ro AI</span>
+            </button>
 
-              <button
-                onClick={handleRunFullDemoFlow}
-                disabled={demoSimulating}
-                className="px-4 py-2.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 rounded-xl shadow-xs transition flex items-center gap-2 disabled:opacity-50"
-              >
-                <Zap size={15} className="text-amber-500" />
-                <span>
-                  {demoSimulating ? 'Đang chạy mô phỏng 4 bước...' : '⚡ Chạy thử đợt chi trả mẫu'}
-                </span>
-              </button>
+            <button
+              onClick={handleRunFullDemoFlow}
+              disabled={demoSimulating}
+              className="px-3 py-1.5 text-xs font-medium text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded-md shadow-vercel-sm transition flex items-center gap-1.5 disabled:opacity-50"
+            >
+              <span>{demoSimulating ? 'Đang chạy mô phỏng...' : '⚡ Chạy thử 3 người'}</span>
+            </button>
 
-              <a
-                href="/batches/new"
-                className="px-4 py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm shadow-indigo-600/30 transition flex items-center gap-2 hover:shadow-md hover:-translate-y-0.5"
-              >
-                <PlusCircle size={15} />
-                <span>+ Tạo đợt chi trả</span>
-              </a>
-            </div>
+            <a
+              href="/batches/new"
+              className="px-3.5 py-1.5 text-xs font-medium text-white bg-black hover:bg-zinc-800 rounded-md shadow-vercel-sm transition flex items-center gap-1.5"
+            >
+              <Plus size={14} />
+              <span>Tạo đợt chi mới</span>
+            </a>
           </div>
         </div>
 
-        {/* Warm & Approachable KPI Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {/* Total Disbursed */}
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-soft space-y-2 hover:border-emerald-200 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Đã giải ngân
-              </span>
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Coins size={16} />
-              </div>
-            </div>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight tabular-nums">
+        {/* Minimalist Vercel KPI Metric Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: Total Disbursed */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Tổng số tiền đã giải ngân
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
               {formatLosslessAmount(totalDisbursedVND, 'VND')}
             </p>
-            <p className="text-xs text-emerald-700 font-medium flex items-center gap-1.5">
-              <CheckCircle2 size={13} className="text-emerald-500" />
-              <span>{completedBatches.length} đợt chi trả thành công</span>
-            </p>
+            <span className="text-[11px] text-zinc-500 block pt-0.5">
+              {completedBatches.length} đợt chi trả thành công
+            </span>
           </div>
 
-          {/* Pending Approval */}
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-soft space-y-2 hover:border-amber-200 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Chờ ký duyệt
-              </span>
-              <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                <Clock size={16} />
-              </div>
-            </div>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight tabular-nums">
+          {/* Card 2: Pending Approval */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Chờ ký duyệt (CFO)
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
               {pendingApprovalCount} đợt
             </p>
-            <p className="text-xs text-amber-700 font-medium">
-              Cần CFO ký duyệt kiểm soát kép
-            </p>
+            <span className="text-[11px] text-amber-600 block pt-0.5">
+              Cần xác nhận kiểm soát kép
+            </span>
           </div>
 
-          {/* Draft Batches */}
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-soft space-y-2 hover:border-indigo-200 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Đang chuẩn bị
-              </span>
-              <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                <TrendingUp size={16} />
-              </div>
-            </div>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight tabular-nums">
+          {/* Card 3: Drafts in Prep */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Bản nháp đang lập
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
               {draftCount} bản nháp
             </p>
-            <p className="text-xs text-indigo-600 font-medium">
+            <span className="text-[11px] text-zinc-500 block pt-0.5">
               Chờ kiểm tra danh sách tài khoản
-            </p>
+            </span>
           </div>
 
-          {/* Settlement Rail */}
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-soft space-y-2 hover:border-slate-300 transition">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Cổng liên kết
-              </span>
-              <div className="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-                <ShieldCheck size={16} />
-              </div>
-            </div>
-            <p className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight mt-1">
-              9Pay Testnet (Chi Hộ)
+          {/* Card 4: 9Pay Rail */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Cổng thanh toán
+            </span>
+            <p className="text-sm font-semibold text-zinc-950 tracking-tight mt-1">
+              9Pay Vietnam Sandbox
             </p>
-            <p className="text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-              <span>Sẵn sàng chuyển tiền NAPAS 24/7</span>
-            </p>
+            <span className="text-[11px] text-emerald-600 flex items-center gap-1.5 pt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+              <span>Chuyển mạch NAPAS 24/7 sẵn sàng</span>
+            </span>
           </div>
         </div>
 
-        {/* Filter Navigation & Batches View */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
-          {/* Status Tabs Header */}
-          <div className="border-b border-slate-200/80 px-6 flex items-center gap-6 overflow-x-auto text-xs font-bold">
-            {[
-              { id: 'ALL', label: `Tất cả đợt chi (${batches.length})` },
-              { id: 'DRAFT', label: `Bản nháp (${draftCount})` },
-              { id: 'VALIDATED', label: `Chờ ký duyệt (${pendingApprovalCount})` },
-              {
-                id: 'APPROVED',
-                label: `Đã duyệt (${batches.filter((b) => b.status === 'APPROVED').length})`,
-              },
-              { id: 'COMPLETED', label: `Đã hoàn thành (${completedBatches.length})` },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setFilterStatus(tab.id)}
-                className={`py-4 border-b-2 transition whitespace-nowrap ${
-                  filterStatus === tab.id
-                    ? 'border-indigo-600 text-indigo-600 font-extrabold'
-                    : 'border-transparent text-slate-500 hover:text-slate-800'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* Filter Navigation & Table Container */}
+        <div className="bg-white rounded-lg border border-zinc-200 shadow-vercel-sm overflow-hidden">
+          {/* Toolbar: Search input + Segmented Status Tabs */}
+          <div className="p-4 border-b border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Search Input */}
+            <div className="relative w-full sm:w-72">
+              <Search
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              />
+              <input
+                type="text"
+                placeholder="Tìm kiếm đợt chi trả..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full text-xs pl-8 pr-3 py-1.5 border border-zinc-200 rounded-md focus:outline-none focus:border-zinc-400 font-normal bg-zinc-50/50"
+              />
+            </div>
+
+            {/* Vercel Segmented Filter Control */}
+            <div className="flex items-center gap-1 bg-zinc-100 p-1 rounded-md text-xs font-medium w-full sm:w-auto overflow-x-auto">
+              {[
+                { id: 'ALL', label: `Tất cả (${batches.length})` },
+                { id: 'DRAFT', label: `Bản nháp (${draftCount})` },
+                { id: 'VALIDATED', label: `Chờ duyệt (${pendingApprovalCount})` },
+                {
+                  id: 'APPROVED',
+                  label: `Đã duyệt (${batches.filter((b) => b.status === 'APPROVED').length})`,
+                },
+                { id: 'COMPLETED', label: `Hoàn tất (${completedBatches.length})` },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilterStatus(tab.id)}
+                  className={`px-3 py-1 rounded text-xs transition whitespace-nowrap ${
+                    filterStatus === tab.id
+                      ? 'bg-white text-black font-semibold shadow-vercel-sm'
+                      : 'text-zinc-600 hover:text-black'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Batches Table or Empty State */}
+          {/* Table or Empty State */}
           {loading && batches.length === 0 ? (
-            <div className="p-16 text-center text-xs text-slate-500 space-y-2">
-              <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-              <p>Đang tải danh sách các đợt chi trả...</p>
+            <div className="p-16 text-center text-xs text-zinc-400">
+              Đang tải danh sách đợt chi...
             </div>
           ) : filteredBatches.length === 0 ? (
-            <div className="p-16 text-center max-w-md mx-auto space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-2xl shadow-xs">
-                💳
+            <div className="p-16 text-center max-w-sm mx-auto space-y-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 text-zinc-400 flex items-center justify-center mx-auto text-sm font-semibold">
+                —
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-sm font-semibold text-zinc-900">
                   {filterStatus === 'ALL'
                     ? 'Chưa có đợt chi trả nào'
-                    : `Không có đợt nào ở trạng thái "${filterStatus}"`}
+                    : `Không tìm thấy đợt chi nào ở mục "${filterStatus}"`}
                 </h3>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                  Bạn có thể tạo mới một đợt chi trả lương hoặc bấm nút chạy thử nghiệm để trải nghiệm toàn bộ luồng duyệt chi và giải ngân.
+                <p className="text-xs text-zinc-500 mt-1">
+                  Bắt đầu bằng việc tạo đợt chi trả mới hoặc chạy thử nghiệm mẫu.
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-3 pt-2">
-                <button
-                  onClick={handleRunFullDemoFlow}
-                  className="px-4 py-2.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5"
-                >
-                  <Sparkles size={14} className="text-amber-500" />
-                  <span>Chạy thử đợt chi trả 3 người</span>
-                </button>
+              <div className="pt-2">
                 <a
                   href="/batches/new"
-                  className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-sm transition"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black hover:bg-zinc-800 text-white rounded-md text-xs font-medium shadow-vercel-sm transition"
                 >
-                  + Tạo đợt mới
+                  <Plus size={14} />
+                  <span>Tạo đợt chi đầu tiên</span>
                 </a>
               </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#FAF9F6] text-slate-500 font-bold border-b border-slate-200/80 uppercase text-[11px] tracking-wider">
+                <thead className="bg-zinc-50/70 text-zinc-500 font-medium border-b border-zinc-200 uppercase text-[11px] tracking-wider">
                   <tr>
-                    <th className="py-4 px-5">Tên đợt chi trả & Mã</th>
-                    <th className="py-4 px-5">Số người nhận</th>
-                    <th className="py-4 px-5">Tổng số tiền (Chính xác)</th>
-                    <th className="py-4 px-5">Cổng chi trả</th>
-                    <th className="py-4 px-5">Trạng thái</th>
-                    <th className="py-4 px-5">Thời gian tạo</th>
-                    <th className="py-4 px-5 text-right">Thao tác</th>
+                    <th className="py-3 px-4">Tên đợt chi trả</th>
+                    <th className="py-3 px-4">Số người nhận</th>
+                    <th className="py-3 px-4">Tổng số tiền (VND)</th>
+                    <th className="py-3 px-4">Cổng chi trả</th>
+                    <th className="py-3 px-4">Trạng thái</th>
+                    <th className="py-3 px-4">Ngày tạo</th>
+                    <th className="py-3 px-4 text-right">Thao tác</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-zinc-100">
                   {filteredBatches.map((b) => (
                     <tr
                       key={b.id}
                       onClick={() => router.push(`/batches/${b.id}`)}
-                      className="hover:bg-indigo-50/30 transition cursor-pointer group"
+                      className="hover:bg-zinc-50/80 transition cursor-pointer group"
                     >
-                      <td className="py-4 px-5 font-bold text-slate-900">
-                        <div className="group-hover:text-indigo-600 transition text-sm">{b.title}</div>
-                        <div className="text-[11px] font-mono text-slate-400 font-normal">
+                      <td className="py-3.5 px-4 font-medium text-zinc-900">
+                        <div className="group-hover:text-black transition font-semibold">
+                          {b.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-zinc-400">
                           {b.id}
                         </div>
                       </td>
-                      <td className="py-4 px-5 text-slate-600 font-medium">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
-                          <Users size={12} className="text-slate-500" />
-                          <span>{b.items.length} người</span>
-                        </span>
+                      <td className="py-3.5 px-4 text-zinc-600 font-normal">
+                        {b.items.length} người nhận
                       </td>
-                      <td className="py-4 px-5 font-bold text-slate-900 text-sm tabular-nums">
+                      <td className="py-3.5 px-4 font-medium text-zinc-950 tabular-nums">
                         {formatLosslessAmount(b.sourceAmountTotal, b.asset)}
                       </td>
-                      <td className="py-4 px-5">
-                        <span className="font-semibold text-amber-800 bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wide">
-                          {b.provider === 'mock' ? '9Pay Sandbox' : b.provider}
+                      <td className="py-3.5 px-4">
+                        <span className="text-[11px] font-mono text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+                          {b.provider === 'mock' ? '9pay-testnet' : b.provider}
                         </span>
                       </td>
-                      <td className="py-4 px-5">
+                      <td className="py-3.5 px-4">
                         <StatusBadge status={b.status} />
                       </td>
-                      <td className="py-4 px-5 text-[11px] text-slate-500 font-medium">
-                        {new Date(b.createdAt).toLocaleString('vi-VN')}
+                      <td className="py-3.5 px-4 text-[11px] text-zinc-500">
+                        {new Date(b.createdAt).toLocaleDateString('vi-VN')}
                       </td>
-                      <td className="py-4 px-5 text-right">
-                        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 group-hover:text-white bg-indigo-50 group-hover:bg-indigo-600 px-3.5 py-2 rounded-xl transition shadow-xs">
+                      <td className="py-3.5 px-4 text-right">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-zinc-700 group-hover:text-black hover:underline">
                           <span>Chi tiết</span>
-                          <ArrowRight size={13} />
+                          <ArrowRight size={12} />
                         </span>
                       </td>
                     </tr>
