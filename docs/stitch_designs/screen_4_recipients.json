@@ -1,0 +1,522 @@
+{
+  "outputComponents": [
+    {
+      "design": {
+        "screens": [
+          {
+            "designSystem": {
+              "designSystem": {
+                "displayName": "PayBridge Executive Terminal",
+                "styleGuidelines": "## Brand & Style\n\nThe design system is engineered for executive-grade treasury teams, multinational CFOs, and payroll operations directors managing high-velocity cross-border liquidity. The emotional tone must communicate institutional-grade security, frictionless throughput, zero-ambiguity precision, and quiet technical authority.\n\nDrawing from the visual heritage of Stripe's systematic precision, Brex's sharp corporate clarity, and Wise's high-efficiency transactional tooling, the aesthetic combines **Deep Institutional Darkness** with **Micro-Engineered Functional Accents**. Visual weight is derived from strict grid lines, micro-borders, deep oceanic slate backdrops, and luminous operational status indicators rather than decorative ornament. Surfaces evoke high-end financial cockpits—dense, highly legible, calm under high-stakes operating conditions, and tuned for rapid anomaly detection and high-volume batch approvals.\n\n## Layout & Spacing\n\nThe terminal uses a strict modular dashboard grid calibrated for information density without ocular crowding. \n\n- **Grid Architecture**: \n  - Standard 12-column layout on desktop viewports (1280px and above) with a permanent 240px or collapsed 64px global rail for navigation.\n  - 8-column layout on tablet devices (768px - 1279px).\n  - 4-column single-stack flow on mobile screens (below 768px).\n- **Horizontal Density**: Data table rows default to a compact 36px–40px vertical rhythm. Information-dense cards utilize tight internal padding (`space-md` or `0.75rem`) to maximize visible context above the fold.\n- **Rhythm & Alignment**: Vertical margins follow strict multiples of 4px. Structural dividers between functional regions (e.g., batch overview metrics versus ledger grids) utilize `space-xl` separation with continuous 1px micro-dividers to prevent optical float.\n\n## Elevation & Depth\n\nVisual hierarchy does not rely on heavy, theatrical drop shadows. Instead, it utilizes structural edge definitions, layered dark-slate luminosity tiers, and subtle glassmorphic blurs to reflect depth.\n\n- **Surface Tiers**:\n  - *Base Layer (`#020617`)*: The background canvas underneath all components.\n  - *Container Layer (`#0F172A`)*: Primary cards, data grids, and panel wrappers.\n  - *Elevated Container (`#1E293B`)*: Active drawers, filter modals, flyout menus, and dropdown lists.\n- **Micro-Border Structure**: All modular containers and cards must carry a crisp 1px perimeter border rendered at `rgba(255, 255, 255, 0.08)`. Hovering or selecting interactive modules elevates the border to `rgba(6, 182, 212, 0.4)` (Cyan) or `rgba(255, 255, 255, 0.16)`.\n- **Glassmorphic Atmosphere**: Command bars, contextual header ribbons, and sticky batch action bars leverage a backdrop blur of `12px` to `16px` combined with a dark translucent surface fill (`rgba(15, 23, 42, 0.75)`). This maintains navigational orientation while scanning multi-page transactions.\n- **Ambient Shadows**: Restricted strictly to transient flyouts, context menus, and high-priority confirmation dialogs: `0px 12px 32px -4px rgba(0, 0, 0, 0.5), 0px 4px 12px -2px rgba(6, 182, 212, 0.05)`.\n\n## Components\n\n### Action Buttons\n- **Primary Execution**: Cyan-500 (`#06B6D4`) background, Slate-950 (`#020617`) typography in medium weight (`500`). Hover elevates surface to Cyan-400 (`#22D3EE`) with an ambient outer glow (`box-shadow: 0 0 12px rgba(6, 182, 212, 0.3)`). Active state applies a 1px downward translation.\n- **Secondary / Operational**: Dark slate fill (`#1E293B`) with a 1px border (`rgba(255, 255, 255, 0.1)`), Slate-100 typography. Hover transitions the border to Slate-400 (`#94A3B8`).\n- **Destructive**: Rose-500/10 tint with Rose-400 (`#FB7185`) border and text. On hover, shifts to solid Rose-600 with white text.\n\n### Settlement & Route Status Badges\nPill-shaped containers with an uppercase `badge-label` monospaced font, 1px perimeter border, and a subtle pulsating or static status dot:\n- **Settled**: Green-500/10 background, `#10B981` text, `#10B981`/30 border.\n- **Processing**: Cyan-500/10 background, `#06B6D4` text, `#06B6D4`/30 border with an animated radar pulse on the dot.\n- **Pending Approval**: Amber-500/10 background, `#F59E0B` text, `#F59E0B`/30 border.\n- **Routed to 9Pay**: Violet-500/10 background, `#818CF8` text, `#818CF8`/30 border, accompanied by an inline directional arrow icon.\n\n### High-Density Data Grids\n- **Header Row**: 32px height, uppercase `badge-label` styling in Slate-400, background tone of `#0B0F19`, bottom border 1px solid `rgba(255, 255, 255, 0.08)`.\n- **Data Rows**: 40px height, hover state transitions row background to `rgba(255, 255, 255, 0.02)`. Border divider between rows is 1px solid `rgba(255, 255, 255, 0.04)`. Numeric values right-aligned using `data-mono` font.\n- **Selection**: Selected rows feature an active 2px left border accent in Cyan-500 (`#06B6D4`) and a subtle surface tint of `rgba(6, 182, 212, 0.03)`.\n\n### Input Fields & Search Bars\n- Background `#0B0F19` with a 1px border of `rgba(255, 255, 255, 0.1)`. Height of 36px.\n- Focus state removes default browser rings, applying a 1px Cyan-500 border and an inner/outer shadow halo: `0 0 0 1px #06B6D4, 0 0 8px rgba(6, 182, 212, 0.2)`.\n- Monospaced numeric entry for transfer amounts with fixed ISO currency prefixes (`USD`, `EUR`, `SGD`, `VND`).\n\n### Selection Controls (Checkboxes & Radios)\n- Square (4px radius) for checkboxes, circular for radios. Base background `#0B0F19` with 1px border `#334155`.\n- Checked state fills with Cyan-500 (`#06B6D4`) with a dark slate check icon.\n\n### Batch Processing Cards\n- Container modules displaying aggregate volume, corridor route (e.g., `USD -> VND via 9Pay`), batch count, and approval workflows.\n- Header displays batch reference ID in `data-mono-bold` with an interactive \"Copy\" micro-action, current execution state, and progress timeline indicator displaying stages: *Initiated -> Compliance Verified -> FX Locked -> Dispatched to Rails*.",
+                "theme": {
+                  "bodyFont": "GEIST",
+                  "bodyFontFamily": "Geist",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#06b6d4",
+                  "designMd": "---\nname: PayBridge Executive Terminal\ncolors:\n  surface: '#0b1326'\n  surface-dim: '#0b1326'\n  surface-bright: '#31394d'\n  surface-container-lowest: '#060e20'\n  surface-container-low: '#131b2e'\n  surface-container: '#171f33'\n  surface-container-high: '#222a3d'\n  surface-container-highest: '#2d3449'\n  on-surface: '#dae2fd'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#dae2fd'\n  inverse-on-surface: '#283044'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#c0c1ff'\n  on-tertiary: '#1000a9'\n  tertiary-container: '#9a9dff'\n  on-tertiary-container: '#211cb4'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#e1e0ff'\n  tertiary-fixed-dim: '#c0c1ff'\n  on-tertiary-fixed: '#07006c'\n  on-tertiary-fixed-variant: '#2f2ebe'\n  background: '#0b1326'\n  on-background: '#dae2fd'\n  surface-variant: '#2d3449'\ntypography:\n  display-hero:\n    fontFamily: Geist\n    fontSize: 2.5rem\n    fontWeight: '600'\n    lineHeight: 3rem\n    letterSpacing: -0.03em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 1.75rem\n    fontWeight: '600'\n    lineHeight: 2.25rem\n    letterSpacing: -0.025em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 1.375rem\n    fontWeight: '600'\n    lineHeight: 1.75rem\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 1.25rem\n    fontWeight: '600'\n    lineHeight: 1.75rem\n    letterSpacing: -0.02em\n  title-sm:\n    fontFamily: Geist\n    fontSize: 1rem\n    fontWeight: '500'\n    lineHeight: 1.5rem\n    letterSpacing: -0.01em\n  metric-headline:\n    fontFamily: JetBrains Mono\n    fontSize: 1.875rem\n    fontWeight: '500'\n    lineHeight: 2.25rem\n    letterSpacing: -0.02em\n  metric-subhead:\n    fontFamily: JetBrains Mono\n    fontSize: 1.25rem\n    fontWeight: '500'\n    lineHeight: 1.5rem\n    letterSpacing: -0.015em\n  body-default:\n    fontFamily: Geist\n    fontSize: 0.875rem\n    fontWeight: '400'\n    lineHeight: 1.375rem\n    letterSpacing: -0.005em\n  body-medium:\n    fontFamily: Geist\n    fontSize: 0.875rem\n    fontWeight: '500'\n    lineHeight: 1.375rem\n    letterSpacing: -0.005em\n  body-caption:\n    fontFamily: Geist\n    fontSize: 0.75rem\n    fontWeight: '400'\n    lineHeight: 1rem\n    letterSpacing: 0em\n  data-mono:\n    fontFamily: JetBrains Mono\n    fontSize: 0.8125rem\n    fontWeight: '400'\n    lineHeight: 1.125rem\n    letterSpacing: 0em\n  data-mono-bold:\n    fontFamily: JetBrains Mono\n    fontSize: 0.8125rem\n    fontWeight: '600'\n    lineHeight: 1.125rem\n    letterSpacing: 0em\n  badge-label:\n    fontFamily: JetBrains Mono\n    fontSize: 0.6875rem\n    fontWeight: '500'\n    lineHeight: 0.875rem\n    letterSpacing: 0.04em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  gutter: 1rem\n  gutter-tablet: 0.75rem\n  gutter-desktop: 1.25rem\n  margin: 1rem\n  margin-tablet: 1.5rem\n  margin-desktop: 2rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 0.75rem\n  space-lg: 1.25rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThe design system is engineered for executive-grade treasury teams, multinational CFOs, and payroll operations directors managing high-velocity cross-border liquidity. The emotional tone must communicate institutional-grade security, frictionless throughput, zero-ambiguity precision, and quiet technical authority.\n\nDrawing from the visual heritage of Stripe's systematic precision, Brex's sharp corporate clarity, and Wise's high-efficiency transactional tooling, the aesthetic combines **Deep Institutional Darkness** with **Micro-Engineered Functional Accents**. Visual weight is derived from strict grid lines, micro-borders, deep oceanic slate backdrops, and luminous operational status indicators rather than decorative ornament. Surfaces evoke high-end financial cockpits—dense, highly legible, calm under high-stakes operating conditions, and tuned for rapid anomaly detection and high-volume batch approvals.\n\n## Colors\n\nThe palette establishes a commanding, high-clarity dark canvas tailored for prolonged analytical work without cognitive fatigue.\n\n- **Background Canvas & Base**: Built upon an obsidian slate core (`#020617` root background, `#0B0F19` canvas, and `#0F172A` neutral base container). Neutral tiers increment subtly in luminous intensity rather than saturation, providing quiet contrast without glare.\n- **Primary Accent (`#06B6D4` - Cyan-500)**: Serves as the primary active state, brand anchor, and execution colorway. Applied to high-priority interactive cues, execution controls, selected filter tokens, and dynamic data path indicators (e.g., cross-border rails, settlement progress bars).\n- **Secondary Accent (`#10B981` - Emerald-500)**: Represents completed financial settlement, matched reconciliation states, and verified funds transfers. Provides immediate, unmistakable positive confirmation across massive data tables.\n- **Tertiary Accent (`#6366F1` - Indigo-500)**: Used for specialized batch orchestration, secondary enterprise metrics, and FX conversion corridors.\n- **Semantic Status Architecture**:\n  - *Settled / Complete*: Emerald (`#10B981`) text and border on low-alpha tint (`rgba(16, 185, 129, 0.08)`).\n  - *Processing / Clearing*: Cyan (`#06B6D4`) text and border on low-alpha tint (`rgba(6, 182, 212, 0.08)`).\n  - *Pending Approval / Flagged*: Amber (`#F59E0B`) text and border on low-alpha tint (`rgba(245, 158, 11, 0.08)`).\n  - *Routed to 9Pay / Local Rails*: Violet-Indigo (`#818CF8`) text and border on low-alpha tint (`rgba(129, 140, 248, 0.08)`).\n  - *Failed / Rejection*: Rose (`#F43F5E`) text and border on low-alpha tint (`rgba(244, 63, 94, 0.08)`).\n- **Text & Foreground Spectrum**: Highest hierarchy figures rely on Crisp White (`#F8FAFC`). Secondary metadata uses Slate-400 (`#94A3B8`). Passive structures, disabled items, and rail metadata leverage Slate-500 (`#64748B`).\n\n## Typography\n\nThe typographic hierarchy prioritizes rapid scannability, deterministic vertical alignment, and strict tabular legibility across extensive financial ledgers.\n\n- **Geist (Body & Display)**: Provides a rational, neo-grotesque foundation engineered specifically for high-density digital products. Its neutral aperture, tight kerning tables, and modern vertical metrics preserve clarity across condensed data cards, command headers, and analytical sidebars.\n- **JetBrains Mono (Monetary Figures, Rails, Identifiers, & Badges)**: Assigned universally to monetary balances, batch tracking IDs, Swift/BIC sequences, ISO currency tickers, and numeric data cells. The monospaced width ensures columns of varying amounts align precisely along the decimal axis without horizontal character drifting.\n- **Tabular Figures Execution**: All quantitative layouts must enforce OpenType `tnum` (tabular numbers) and `zero` (slashed zeros) via CSS `font-feature-settings: \"tnum\" 1, \"zero\" 1`.\n\n## Layout & Spacing\n\nThe terminal uses a strict modular dashboard grid calibrated for information density without ocular crowding. \n\n- **Grid Architecture**: \n  - Standard 12-column layout on desktop viewports (1280px and above) with a permanent 240px or collapsed 64px global rail for navigation.\n  - 8-column layout on tablet devices (768px - 1279px).\n  - 4-column single-stack flow on mobile screens (below 768px).\n- **Horizontal Density**: Data table rows default to a compact 36px–40px vertical rhythm. Information-dense cards utilize tight internal padding (`space-md` or `0.75rem`) to maximize visible context above the fold.\n- **Rhythm & Alignment**: Vertical margins follow strict multiples of 4px. Structural dividers between functional regions (e.g., batch overview metrics versus ledger grids) utilize `space-xl` separation with continuous 1px micro-dividers to prevent optical float.\n\n## Elevation & Depth\n\nVisual hierarchy does not rely on heavy, theatrical drop shadows. Instead, it utilizes structural edge definitions, layered dark-slate luminosity tiers, and subtle glassmorphic blurs to reflect depth.\n\n- **Surface Tiers**:\n  - *Base Layer (`#020617`)*: The background canvas underneath all components.\n  - *Container Layer (`#0F172A`)*: Primary cards, data grids, and panel wrappers.\n  - *Elevated Container (`#1E293B`)*: Active drawers, filter modals, flyout menus, and dropdown lists.\n- **Micro-Border Structure**: All modular containers and cards must carry a crisp 1px perimeter border rendered at `rgba(255, 255, 255, 0.08)`. Hovering or selecting interactive modules elevates the border to `rgba(6, 182, 212, 0.4)` (Cyan) or `rgba(255, 255, 255, 0.16)`.\n- **Glassmorphic Atmosphere**: Command bars, contextual header ribbons, and sticky batch action bars leverage a backdrop blur of `12px` to `16px` combined with a dark translucent surface fill (`rgba(15, 23, 42, 0.75)`). This maintains navigational orientation while scanning multi-page transactions.\n- **Ambient Shadows**: Restricted strictly to transient flyouts, context menus, and high-priority confirmation dialogs: `0px 12px 32px -4px rgba(0, 0, 0, 0.5), 0px 4px 12px -2px rgba(6, 182, 212, 0.05)`.\n\n## Shapes\n\nThe shape system employs an institutional, compact radius logic (`roundedness: 1`). Soft 4px (`0.25rem`) corners dominate component architecture, conveying geometric rigor, architectural stability, and operational exactness.\n\n- **Primary Corners**: All interactive buttons, text inputs, table wrappers, segment controllers, and data cells use `4px` corner radii.\n- **Medium Panels & Modals (`rounded-lg`)**: Larger structural panels, batch inspection drawers, and metric stat cards use `8px` (`0.5rem`).\n- **Status Pills & Micro-Badges**: Retain an exception toward full pill-geometry (`9999px`) to immediately visually differentiate state indicators and route markers from standard rectangular interactive elements.\n\n## Components\n\n### Action Buttons\n- **Primary Execution**: Cyan-500 (`#06B6D4`) background, Slate-950 (`#020617`) typography in medium weight (`500`). Hover elevates surface to Cyan-400 (`#22D3EE`) with an ambient outer glow (`box-shadow: 0 0 12px rgba(6, 182, 212, 0.3)`). Active state applies a 1px downward translation.\n- **Secondary / Operational**: Dark slate fill (`#1E293B`) with a 1px border (`rgba(255, 255, 255, 0.1)`), Slate-100 typography. Hover transitions the border to Slate-400 (`#94A3B8`).\n- **Destructive**: Rose-500/10 tint with Rose-400 (`#FB7185`) border and text. On hover, shifts to solid Rose-600 with white text.\n\n### Settlement & Route Status Badges\nPill-shaped containers with an uppercase `badge-label` monospaced font, 1px perimeter border, and a subtle pulsating or static status dot:\n- **Settled**: Green-500/10 background, `#10B981` text, `#10B981`/30 border.\n- **Processing**: Cyan-500/10 background, `#06B6D4` text, `#06B6D4`/30 border with an animated radar pulse on the dot.\n- **Pending Approval**: Amber-500/10 background, `#F59E0B` text, `#F59E0B`/30 border.\n- **Routed to 9Pay**: Violet-500/10 background, `#818CF8` text, `#818CF8`/30 border, accompanied by an inline directional arrow icon.\n\n### High-Density Data Grids\n- **Header Row**: 32px height, uppercase `badge-label` styling in Slate-400, background tone of `#0B0F19`, bottom border 1px solid `rgba(255, 255, 255, 0.08)`.\n- **Data Rows**: 40px height, hover state transitions row background to `rgba(255, 255, 255, 0.02)`. Border divider between rows is 1px solid `rgba(255, 255, 255, 0.04)`. Numeric values right-aligned using `data-mono` font.\n- **Selection**: Selected rows feature an active 2px left border accent in Cyan-500 (`#06B6D4`) and a subtle surface tint of `rgba(6, 182, 212, 0.03)`.\n\n### Input Fields & Search Bars\n- Background `#0B0F19` with a 1px border of `rgba(255, 255, 255, 0.1)`. Height of 36px.\n- Focus state removes default browser rings, applying a 1px Cyan-500 border and an inner/outer shadow halo: `0 0 0 1px #06B6D4, 0 0 8px rgba(6, 182, 212, 0.2)`.\n- Monospaced numeric entry for transfer amounts with fixed ISO currency prefixes (`USD`, `EUR`, `SGD`, `VND`).\n\n### Selection Controls (Checkboxes & Radios)\n- Square (4px radius) for checkboxes, circular for radios. Base background `#0B0F19` with 1px border `#334155`.\n- Checked state fills with Cyan-500 (`#06B6D4`) with a dark slate check icon.\n\n### Batch Processing Cards\n- Container modules displaying aggregate volume, corridor route (e.g., `USD -> VND via 9Pay`), batch count, and approval workflows.\n- Header displays batch reference ID in `data-mono-bold` with an interactive \"Copy\" micro-action, current execution state, and progress timeline indicator displaying stages: *Initiated -> Compliance Verified -> FX Locked -> Dispatched to Rails*.",
+                  "font": "GEIST",
+                  "headlineFont": "GEIST",
+                  "headlineFontFamily": "Geist",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "JetBrains Mono",
+                  "namedColors": {
+                    "background": "#0b1326",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#283044",
+                    "inverse_primary": "#00687a",
+                    "inverse_surface": "#dae2fd",
+                    "on_background": "#dae2fd",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#003640",
+                    "on_primary_container": "#00424f",
+                    "on_primary_fixed": "#001f26",
+                    "on_primary_fixed_variant": "#004e5c",
+                    "on_secondary": "#003824",
+                    "on_secondary_container": "#00311f",
+                    "on_secondary_fixed": "#002113",
+                    "on_secondary_fixed_variant": "#005236",
+                    "on_surface": "#dae2fd",
+                    "on_surface_variant": "#bcc9cd",
+                    "on_tertiary": "#1000a9",
+                    "on_tertiary_container": "#211cb4",
+                    "on_tertiary_fixed": "#07006c",
+                    "on_tertiary_fixed_variant": "#2f2ebe",
+                    "outline": "#869397",
+                    "outline_variant": "#3d494c",
+                    "primary": "#4cd7f6",
+                    "primary_container": "#06b6d4",
+                    "primary_fixed": "#acedff",
+                    "primary_fixed_dim": "#4cd7f6",
+                    "secondary": "#4edea3",
+                    "secondary_container": "#00a572",
+                    "secondary_fixed": "#6ffbbe",
+                    "secondary_fixed_dim": "#4edea3",
+                    "surface": "#0b1326",
+                    "surface_bright": "#31394d",
+                    "surface_container": "#171f33",
+                    "surface_container_high": "#222a3d",
+                    "surface_container_highest": "#2d3449",
+                    "surface_container_low": "#131b2e",
+                    "surface_container_lowest": "#060e20",
+                    "surface_dim": "#0b1326",
+                    "surface_tint": "#4cd7f6",
+                    "surface_variant": "#2d3449",
+                    "tertiary": "#c0c1ff",
+                    "tertiary_container": "#9a9dff",
+                    "tertiary_fixed": "#e1e0ff",
+                    "tertiary_fixed_dim": "#c0c1ff"
+                  },
+                  "overrideNeutralColor": "#0f172a",
+                  "overridePrimaryColor": "#06b6d4",
+                  "overrideSecondaryColor": "#10b981",
+                  "overrideTertiaryColor": "#6366f1",
+                  "roundness": "ROUND_FOUR",
+                  "spacing": {
+                    "gutter": "1rem",
+                    "gutter-desktop": "1.25rem",
+                    "gutter-tablet": "0.75rem",
+                    "margin": "1rem",
+                    "margin-desktop": "2rem",
+                    "margin-tablet": "1.5rem",
+                    "space-lg": "1.25rem",
+                    "space-md": "0.75rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-xs": "0.25rem"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "badge-label": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.6875rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.04em",
+                      "lineHeight": "0.875rem"
+                    },
+                    "body-caption": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.75rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1rem"
+                    },
+                    "body-default": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.875rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "-0.005em",
+                      "lineHeight": "1.375rem"
+                    },
+                    "body-medium": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.875rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.005em",
+                      "lineHeight": "1.375rem"
+                    },
+                    "data-mono": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.8125rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1.125rem"
+                    },
+                    "data-mono-bold": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.8125rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1.125rem"
+                    },
+                    "display-hero": {
+                      "fontFamily": "Geist",
+                      "fontSize": "2.5rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.03em",
+                      "lineHeight": "3rem"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Geist",
+                      "fontSize": "1.75rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.025em",
+                      "lineHeight": "2.25rem"
+                    },
+                    "headline-lg-mobile": {
+                      "fontFamily": "Geist",
+                      "fontSize": "1.375rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "1.75rem"
+                    },
+                    "headline-md": {
+                      "fontFamily": "Geist",
+                      "fontSize": "1.25rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "1.75rem"
+                    },
+                    "metric-headline": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "1.875rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "2.25rem"
+                    },
+                    "metric-subhead": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "1.25rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.015em",
+                      "lineHeight": "1.5rem"
+                    },
+                    "title-sm": {
+                      "fontFamily": "Geist",
+                      "fontSize": "1rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "1.5rem"
+                    }
+                  }
+                }
+              },
+              "name": "assets/94899d5dd2d347d3ad426d7d7f0a5c4c",
+              "version": "1"
+            },
+            "deviceType": "DESKTOP",
+            "generatedBy": "figaro_agent",
+            "height": "2990",
+            "htmlCode": {
+              "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzgwZTJkZGNkNzY5ZTRlYmM5NWJjMjNjMjRlMTdlZThmEgsSBxC-1qiWrx4YAZIBJAoKcHJvamVjdF9pZBIWQhQxNzYzMDU5MjE1NzAyOTk4MDA4NA&filename=&opi=96797242",
+              "mimeType": "text/html",
+              "name": "projects/17630592157029980084/files/a601d98c45f140f09be2459062f265a7"
+            },
+            "id": "15c483b1807b41a180f0b3f53123f074",
+            "name": "projects/17630592157029980084/screens/15c483b1807b41a180f0b3f53123f074",
+            "prompt": "Design a dark institutional B2B financial terminal screen for PayBridge: \"PayBridge - Beneficiary & Contractor Vault (/recipients)\".\nBackground: #0A0E17 / deep slate dark theme (#0b1326), fine border-outline-variant/30 borders, glowing emerald (#10b981 / #00df89) and electric cyan/blue accents.\n\nInclude standard PayBridge TopNavBar and SideNavBar (active tab: 'Beneficiary Vault' with count badge '48' or '1,420'). Show Sandbox Testnet badge '9Pay Testnet' and live exchange rate lock 'USD/VND 25,410.00' in top bar.\n\nPage Content:\n1. Header Bar:\n- Breadcrumb: Treasury / Vietnam Rail (9Pay Direct) / Contractor & Beneficiary Directory\n- Title: \"Beneficiary & Contractor Vault\" with subtitle: \"Enterprise directory & encrypted KYC accounts across Vietnam banking rails (NAPAS 24/7 FastPay & 9Pay Direct). State Bank of Vietnam compliant.\"\n- Header Actions: \"Import CSV / Merkle Roster\" button with icon, and primary emerald button \"+ Add Beneficiary\" (or \"+ Add Contractor to Vault\").\n\n2. Top KPI Metric Grid:\n- Total Contractors: \"48 Active\" (with \"+12 this quarter\" indicator)\n- NAPAS 24/7 Verified: \"45 Banks\" (Latency 16ms, Vietcombank, Techcombank, MB Bank, BIDV, ACB)\n- 9Pay E-Wallets: \"3 Connected\" (Direct switch, instant 4ms settling)\n- Disbursed YTD: \"8,450,000,000 VND\" (~$338,000 USD, 100% BigInt lossless precision)\n\n3. High-Density Filter & Search Toolbar:\n- Search input: \"Search contractor name, tax code (MST), account...\" with shortcut ⌘K\n- Bank Rail filter pills: \"All (48)\", \"Vietcombank VCB (22)\", \"MB Bank (14)\", \"Techcombank TCB (9)\", \"ACB (3)\", \"9Pay Wallet (3)\"\n- Status dropdown: \"All Status (Verified, Pending Pre-check, Dual-Auth Required)\"\n- Disbursal frequency / PIT tax status filter\n\n4. Contractor & Beneficiary Table Listing (Detailed rows with rich data):\nColumns:\n- Checkbox & Contractor (Avatar, Full Legal Name in bold uppercase/title case e.g. \"Nguyen Van An\", role badge \"Senior Backend Lead\", email)\n- Routing Rail & Destination (Bank Logo/badge: Vietcombank, MB Bank, Techcombank, ACB, or 9Pay Direct, masked Account Number `•••• 9214`, \"NAPAS 24/7 FastPay\" pill)\n- National ID / Tax Code (CCCD e.g. `001198004521`, MST `8492019482 (10% PIT Resident)`)\n- Total Received YTD (e.g. `175,000,000 VND` ~ $6,887 USD)\n- Verification & Security Status (Emerald badge \"● NAPAS VERIFIED\" with live account ping match)\n- Quick Disburse CTA button & Action menu (three dots)\n\n5. Slide-Over Modal / Side Sheet (Docked on right side, overlaying or side-docked with backdrop):\n- Header: \"Add Contractor to Vault\" (or \"Add New Beneficiary\") with close button [✕] and subtitle \"Add contractor bank credentials with real-time NAPAS 24/7 validation & KYC verification.\"\n- Live Pre-Check Banner: Emerald container with \"NAPAS 24/7 FastPay Switch Pre-Check: Latency 16ms | Account Match: NGUYEN VAN AN verified on Vietcombank switch (BIN: 970436)\"\n- Form Fields:\n  * Full Legal Name (As on Bank Account / CCCD): Input with \"NGUYEN VAN AN\" and \"MATCHED\" green check badge\n  * Routing Destination Bank: Select dropdown showing \"Vietcombank - VCB (Joint Stock Commercial Bank for Foreign Trade of Vietnam) [BIN: 970436]\"\n  * Account / E-Wallet Number: Input with `0011 0042 9811 02` and prominent button \"Auto-lookup NAPAS\" with status \"● NAPAS RESOLVED\"\n  * Contractor Role & Department: \"Senior Backend Lead\" | \"Platform Core - Engineering\"\n  * Work Email & Disbursal Notification: `van.nguyen@contractor.paybridge.io`\n  * Citizen Identity (CCCD) & Tax Code (MST & PIT tier): `001198004521` | `8492019482 (Resident 10%)`\n  * Dual-Control Signer Note: \"Contractor onboarding approved under MSA #VN-2025-019\"\n  * Security Notice: \"FIDO2 DUAL-CONTROL GUARD: Hardware token required before first disburse.\"\n- Slide-over footer buttons: \"Cancel\" outline button and vibrant emerald \"+ Save & Request Dual Authorization\" primary button.\n\nEnsure high visual polish, monospace fonts for numbers, hashes, and amounts, sharp borders, deep contrast, and institutional fintech aesthetic.",
+            "screenMetadata": {
+              "agentType": "PRO_AGENT",
+              "status": "COMPLETE"
+            },
+            "screenType": "DESIGN",
+            "screenshot": {
+              "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1VCN4UBSZpVirn2367BOW-F3UBQQzraO5YevjUmXuqyK86H_mLrg_xmCIM6qfaBd6lThzOKuDdNYaif2aJV8IrBjsUbOWu6GFq0CEfjIAsIiRPQUCTh9Zsba1zW6_CRHWEnpmRCPilMY38z6p-ksyroivVJY5PUbxqbkoR6T3k-QYN9pljsXMGVbEVaMfnQPyqcGBN2CKhaIMVnAHVbihVcH6KXEZff8F3Hwb0Of3UxCCtaPAycs2l_iYkT",
+              "name": "projects/17630592157029980084/files/6ab6d4321e1343aeb4e5e9d9b0757974"
+            },
+            "theme": {
+              "bodyFont": "GEIST",
+              "bodyFontFamily": "Geist",
+              "colorMode": "DARK",
+              "colorVariant": "FIDELITY",
+              "customColor": "#06b6d4",
+              "font": "GEIST",
+              "headlineFont": "GEIST",
+              "headlineFontFamily": "Geist",
+              "labelFont": "JETBRAINS_MONO",
+              "labelFontFamily": "JetBrains Mono",
+              "namedColors": {
+                "background": "#0b1326",
+                "error": "#ffb4ab",
+                "error_container": "#93000a",
+                "inverse_on_surface": "#283044",
+                "inverse_primary": "#00687a",
+                "inverse_surface": "#dae2fd",
+                "on_background": "#dae2fd",
+                "on_error": "#690005",
+                "on_error_container": "#ffdad6",
+                "on_primary": "#003640",
+                "on_primary_container": "#00424f",
+                "on_primary_fixed": "#001f26",
+                "on_primary_fixed_variant": "#004e5c",
+                "on_secondary": "#003824",
+                "on_secondary_container": "#00311f",
+                "on_secondary_fixed": "#002113",
+                "on_secondary_fixed_variant": "#005236",
+                "on_surface": "#dae2fd",
+                "on_surface_variant": "#bcc9cd",
+                "on_tertiary": "#1000a9",
+                "on_tertiary_container": "#211cb4",
+                "on_tertiary_fixed": "#07006c",
+                "on_tertiary_fixed_variant": "#2f2ebe",
+                "outline": "#869397",
+                "outline_variant": "#3d494c",
+                "primary": "#4cd7f6",
+                "primary_container": "#06b6d4",
+                "primary_fixed": "#acedff",
+                "primary_fixed_dim": "#4cd7f6",
+                "secondary": "#4edea3",
+                "secondary_container": "#00a572",
+                "secondary_fixed": "#6ffbbe",
+                "secondary_fixed_dim": "#4edea3",
+                "surface": "#0b1326",
+                "surface_bright": "#31394d",
+                "surface_container": "#171f33",
+                "surface_container_high": "#222a3d",
+                "surface_container_highest": "#2d3449",
+                "surface_container_low": "#131b2e",
+                "surface_container_lowest": "#060e20",
+                "surface_dim": "#0b1326",
+                "surface_tint": "#4cd7f6",
+                "surface_variant": "#2d3449",
+                "tertiary": "#c0c1ff",
+                "tertiary_container": "#9a9dff",
+                "tertiary_fixed": "#e1e0ff",
+                "tertiary_fixed_dim": "#c0c1ff"
+              },
+              "overrideNeutralColor": "#0f172a",
+              "overridePrimaryColor": "#06b6d4",
+              "overrideSecondaryColor": "#10b981",
+              "overrideTertiaryColor": "#6366f1",
+              "roundness": "ROUND_FOUR",
+              "spacing": {
+                "gutter": "1rem",
+                "gutter-desktop": "1.25rem",
+                "gutter-tablet": "0.75rem",
+                "margin": "1rem",
+                "margin-desktop": "2rem",
+                "margin-tablet": "1.5rem",
+                "space-lg": "1.25rem",
+                "space-md": "0.75rem",
+                "space-sm": "0.5rem",
+                "space-xl": "2rem",
+                "space-xs": "0.25rem"
+              },
+              "spacingScale": 2,
+              "typography": {
+                "badge-label": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": "0.6875rem",
+                  "fontWeight": "500",
+                  "letterSpacing": "0.04em",
+                  "lineHeight": "0.875rem"
+                },
+                "body-caption": {
+                  "fontFamily": "Geist",
+                  "fontSize": "0.75rem",
+                  "fontWeight": "400",
+                  "letterSpacing": "0em",
+                  "lineHeight": "1rem"
+                },
+                "body-default": {
+                  "fontFamily": "Geist",
+                  "fontSize": "0.875rem",
+                  "fontWeight": "400",
+                  "letterSpacing": "-0.005em",
+                  "lineHeight": "1.375rem"
+                },
+                "body-medium": {
+                  "fontFamily": "Geist",
+                  "fontSize": "0.875rem",
+                  "fontWeight": "500",
+                  "letterSpacing": "-0.005em",
+                  "lineHeight": "1.375rem"
+                },
+                "data-mono": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": "0.8125rem",
+                  "fontWeight": "400",
+                  "letterSpacing": "0em",
+                  "lineHeight": "1.125rem"
+                },
+                "data-mono-bold": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": "0.8125rem",
+                  "fontWeight": "600",
+                  "letterSpacing": "0em",
+                  "lineHeight": "1.125rem"
+                },
+                "display-hero": {
+                  "fontFamily": "Geist",
+                  "fontSize": "2.5rem",
+                  "fontWeight": "600",
+                  "letterSpacing": "-0.03em",
+                  "lineHeight": "3rem"
+                },
+                "headline-lg": {
+                  "fontFamily": "Geist",
+                  "fontSize": "1.75rem",
+                  "fontWeight": "600",
+                  "letterSpacing": "-0.025em",
+                  "lineHeight": "2.25rem"
+                },
+                "headline-lg-mobile": {
+                  "fontFamily": "Geist",
+                  "fontSize": "1.375rem",
+                  "fontWeight": "600",
+                  "letterSpacing": "-0.02em",
+                  "lineHeight": "1.75rem"
+                },
+                "headline-md": {
+                  "fontFamily": "Geist",
+                  "fontSize": "1.25rem",
+                  "fontWeight": "600",
+                  "letterSpacing": "-0.02em",
+                  "lineHeight": "1.75rem"
+                },
+                "metric-headline": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": "1.875rem",
+                  "fontWeight": "500",
+                  "letterSpacing": "-0.02em",
+                  "lineHeight": "2.25rem"
+                },
+                "metric-subhead": {
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": "1.25rem",
+                  "fontWeight": "500",
+                  "letterSpacing": "-0.015em",
+                  "lineHeight": "1.5rem"
+                },
+                "title-sm": {
+                  "fontFamily": "Geist",
+                  "fontSize": "1rem",
+                  "fontWeight": "500",
+                  "letterSpacing": "-0.01em",
+                  "lineHeight": "1.5rem"
+                }
+              }
+            },
+            "title": "PayBridge - Beneficiary & Contractor Vault (/recipients)",
+            "width": "2722"
+          },
+          {
+            "designSystem": {
+              "designSystem": {
+                "displayName": "PayBridge Executive Terminal",
+                "styleGuidelines": "## Brand & Style\n\nThe design system is engineered for executive-grade treasury teams, multinational CFOs, and payroll operations directors managing high-velocity cross-border liquidity. The emotional tone must communicate institutional-grade security, frictionless throughput, zero-ambiguity precision, and quiet technical authority.\n\nDrawing from the visual heritage of Stripe's systematic precision, Brex's sharp corporate clarity, and Wise's high-efficiency transactional tooling, the aesthetic combines **Deep Institutional Darkness** with **Micro-Engineered Functional Accents**. Visual weight is derived from strict grid lines, micro-borders, deep oceanic slate backdrops, and luminous operational status indicators rather than decorative ornament. Surfaces evoke high-end financial cockpits—dense, highly legible, calm under high-stakes operating conditions, and tuned for rapid anomaly detection and high-volume batch approvals.\n\n## Layout & Spacing\n\nThe terminal uses a strict modular dashboard grid calibrated for information density without ocular crowding. \n\n- **Grid Architecture**: \n  - Standard 12-column layout on desktop viewports (1280px and above) with a permanent 240px or collapsed 64px global rail for navigation.\n  - 8-column layout on tablet devices (768px - 1279px).\n  - 4-column single-stack flow on mobile screens (below 768px).\n- **Horizontal Density**: Data table rows default to a compact 36px–40px vertical rhythm. Information-dense cards utilize tight internal padding (`space-md` or `0.75rem`) to maximize visible context above the fold.\n- **Rhythm & Alignment**: Vertical margins follow strict multiples of 4px. Structural dividers between functional regions (e.g., batch overview metrics versus ledger grids) utilize `space-xl` separation with continuous 1px micro-dividers to prevent optical float.\n\n## Elevation & Depth\n\nVisual hierarchy does not rely on heavy, theatrical drop shadows. Instead, it utilizes structural edge definitions, layered dark-slate luminosity tiers, and subtle glassmorphic blurs to reflect depth.\n\n- **Surface Tiers**:\n  - *Base Layer (`#020617`)*: The background canvas underneath all components.\n  - *Container Layer (`#0F172A`)*: Primary cards, data grids, and panel wrappers.\n  - *Elevated Container (`#1E293B`)*: Active drawers, filter modals, flyout menus, and dropdown lists.\n- **Micro-Border Structure**: All modular containers and cards must carry a crisp 1px perimeter border rendered at `rgba(255, 255, 255, 0.08)`. Hovering or selecting interactive modules elevates the border to `rgba(6, 182, 212, 0.4)` (Cyan) or `rgba(255, 255, 255, 0.16)`.\n- **Glassmorphic Atmosphere**: Command bars, contextual header ribbons, and sticky batch action bars leverage a backdrop blur of `12px` to `16px` combined with a dark translucent surface fill (`rgba(15, 23, 42, 0.75)`). This maintains navigational orientation while scanning multi-page transactions.\n- **Ambient Shadows**: Restricted strictly to transient flyouts, context menus, and high-priority confirmation dialogs: `0px 12px 32px -4px rgba(0, 0, 0, 0.5), 0px 4px 12px -2px rgba(6, 182, 212, 0.05)`.\n\n## Components\n\n### Action Buttons\n- **Primary Execution**: Cyan-500 (`#06B6D4`) background, Slate-950 (`#020617`) typography in medium weight (`500`). Hover elevates surface to Cyan-400 (`#22D3EE`) with an ambient outer glow (`box-shadow: 0 0 12px rgba(6, 182, 212, 0.3)`). Active state applies a 1px downward translation.\n- **Secondary / Operational**: Dark slate fill (`#1E293B`) with a 1px border (`rgba(255, 255, 255, 0.1)`), Slate-100 typography. Hover transitions the border to Slate-400 (`#94A3B8`).\n- **Destructive**: Rose-500/10 tint with Rose-400 (`#FB7185`) border and text. On hover, shifts to solid Rose-600 with white text.\n\n### Settlement & Route Status Badges\nPill-shaped containers with an uppercase `badge-label` monospaced font, 1px perimeter border, and a subtle pulsating or static status dot:\n- **Settled**: Green-500/10 background, `#10B981` text, `#10B981`/30 border.\n- **Processing**: Cyan-500/10 background, `#06B6D4` text, `#06B6D4`/30 border with an animated radar pulse on the dot.\n- **Pending Approval**: Amber-500/10 background, `#F59E0B` text, `#F59E0B`/30 border.\n- **Routed to 9Pay**: Violet-500/10 background, `#818CF8` text, `#818CF8`/30 border, accompanied by an inline directional arrow icon.\n\n### High-Density Data Grids\n- **Header Row**: 32px height, uppercase `badge-label` styling in Slate-400, background tone of `#0B0F19`, bottom border 1px solid `rgba(255, 255, 255, 0.08)`.\n- **Data Rows**: 40px height, hover state transitions row background to `rgba(255, 255, 255, 0.02)`. Border divider between rows is 1px solid `rgba(255, 255, 255, 0.04)`. Numeric values right-aligned using `data-mono` font.\n- **Selection**: Selected rows feature an active 2px left border accent in Cyan-500 (`#06B6D4`) and a subtle surface tint of `rgba(6, 182, 212, 0.03)`.\n\n### Input Fields & Search Bars\n- Background `#0B0F19` with a 1px border of `rgba(255, 255, 255, 0.1)`. Height of 36px.\n- Focus state removes default browser rings, applying a 1px Cyan-500 border and an inner/outer shadow halo: `0 0 0 1px #06B6D4, 0 0 8px rgba(6, 182, 212, 0.2)`.\n- Monospaced numeric entry for transfer amounts with fixed ISO currency prefixes (`USD`, `EUR`, `SGD`, `VND`).\n\n### Selection Controls (Checkboxes & Radios)\n- Square (4px radius) for checkboxes, circular for radios. Base background `#0B0F19` with 1px border `#334155`.\n- Checked state fills with Cyan-500 (`#06B6D4`) with a dark slate check icon.\n\n### Batch Processing Cards\n- Container modules displaying aggregate volume, corridor route (e.g., `USD -> VND via 9Pay`), batch count, and approval workflows.\n- Header displays batch reference ID in `data-mono-bold` with an interactive \"Copy\" micro-action, current execution state, and progress timeline indicator displaying stages: *Initiated -> Compliance Verified -> FX Locked -> Dispatched to Rails*.",
+                "theme": {
+                  "bodyFont": "GEIST",
+                  "bodyFontFamily": "Geist",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#06b6d4",
+                  "designMd": "---\nname: PayBridge Executive Terminal\ncolors:\n  surface: '#0b1326'\n  surface-dim: '#0b1326'\n  surface-bright: '#31394d'\n  surface-container-lowest: '#060e20'\n  surface-container-low: '#131b2e'\n  surface-container: '#171f33'\n  surface-container-high: '#222a3d'\n  surface-container-highest: '#2d3449'\n  on-surface: '#dae2fd'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#dae2fd'\n  inverse-on-surface: '#283044'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#c0c1ff'\n  on-tertiary: '#1000a9'\n  tertiary-container: '#9a9dff'\n  on-tertiary-container: '#211cb4'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#e1e0ff'\n  tertiary-fixed-dim: '#c0c1ff'\n  on-tertiary-fixed: '#07006c'\n  on-tertiary-fixed-variant: '#2f2ebe'\n  background: '#0b1326'\n  on-background: '#dae2fd'\n  surface-variant: '#2d3449'\ntypography:\n  display-hero:\n    fontFamily: Geist\n    fontSize: 2.5rem\n    fontWeight: '600'\n    lineHeight: 3rem\n    letterSpacing: -0.03em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 1.75rem\n    fontWeight: '600'\n    lineHeight: 2.25rem\n    letterSpacing: -0.025em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 1.375rem\n    fontWeight: '600'\n    lineHeight: 1.75rem\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 1.25rem\n    fontWeight: '600'\n    lineHeight: 1.75rem\n    letterSpacing: -0.02em\n  title-sm:\n    fontFamily: Geist\n    fontSize: 1rem\n    fontWeight: '500'\n    lineHeight: 1.5rem\n    letterSpacing: -0.01em\n  metric-headline:\n    fontFamily: JetBrains Mono\n    fontSize: 1.875rem\n    fontWeight: '500'\n    lineHeight: 2.25rem\n    letterSpacing: -0.02em\n  metric-subhead:\n    fontFamily: JetBrains Mono\n    fontSize: 1.25rem\n    fontWeight: '500'\n    lineHeight: 1.5rem\n    letterSpacing: -0.015em\n  body-default:\n    fontFamily: Geist\n    fontSize: 0.875rem\n    fontWeight: '400'\n    lineHeight: 1.375rem\n    letterSpacing: -0.005em\n  body-medium:\n    fontFamily: Geist\n    fontSize: 0.875rem\n    fontWeight: '500'\n    lineHeight: 1.375rem\n    letterSpacing: -0.005em\n  body-caption:\n    fontFamily: Geist\n    fontSize: 0.75rem\n    fontWeight: '400'\n    lineHeight: 1rem\n    letterSpacing: 0em\n  data-mono:\n    fontFamily: JetBrains Mono\n    fontSize: 0.8125rem\n    fontWeight: '400'\n    lineHeight: 1.125rem\n    letterSpacing: 0em\n  data-mono-bold:\n    fontFamily: JetBrains Mono\n    fontSize: 0.8125rem\n    fontWeight: '600'\n    lineHeight: 1.125rem\n    letterSpacing: 0em\n  badge-label:\n    fontFamily: JetBrains Mono\n    fontSize: 0.6875rem\n    fontWeight: '500'\n    lineHeight: 0.875rem\n    letterSpacing: 0.04em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  gutter: 1rem\n  gutter-tablet: 0.75rem\n  gutter-desktop: 1.25rem\n  margin: 1rem\n  margin-tablet: 1.5rem\n  margin-desktop: 2rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 0.75rem\n  space-lg: 1.25rem\n  space-xl: 2rem\n---\n\n## Brand & Style\n\nThe design system is engineered for executive-grade treasury teams, multinational CFOs, and payroll operations directors managing high-velocity cross-border liquidity. The emotional tone must communicate institutional-grade security, frictionless throughput, zero-ambiguity precision, and quiet technical authority.\n\nDrawing from the visual heritage of Stripe's systematic precision, Brex's sharp corporate clarity, and Wise's high-efficiency transactional tooling, the aesthetic combines **Deep Institutional Darkness** with **Micro-Engineered Functional Accents**. Visual weight is derived from strict grid lines, micro-borders, deep oceanic slate backdrops, and luminous operational status indicators rather than decorative ornament. Surfaces evoke high-end financial cockpits—dense, highly legible, calm under high-stakes operating conditions, and tuned for rapid anomaly detection and high-volume batch approvals.\n\n## Colors\n\nThe palette establishes a commanding, high-clarity dark canvas tailored for prolonged analytical work without cognitive fatigue.\n\n- **Background Canvas & Base**: Built upon an obsidian slate core (`#020617` root background, `#0B0F19` canvas, and `#0F172A` neutral base container). Neutral tiers increment subtly in luminous intensity rather than saturation, providing quiet contrast without glare.\n- **Primary Accent (`#06B6D4` - Cyan-500)**: Serves as the primary active state, brand anchor, and execution colorway. Applied to high-priority interactive cues, execution controls, selected filter tokens, and dynamic data path indicators (e.g., cross-border rails, settlement progress bars).\n- **Secondary Accent (`#10B981` - Emerald-500)**: Represents completed financial settlement, matched reconciliation states, and verified funds transfers. Provides immediate, unmistakable positive confirmation across massive data tables.\n- **Tertiary Accent (`#6366F1` - Indigo-500)**: Used for specialized batch orchestration, secondary enterprise metrics, and FX conversion corridors.\n- **Semantic Status Architecture**:\n  - *Settled / Complete*: Emerald (`#10B981`) text and border on low-alpha tint (`rgba(16, 185, 129, 0.08)`).\n  - *Processing / Clearing*: Cyan (`#06B6D4`) text and border on low-alpha tint (`rgba(6, 182, 212, 0.08)`).\n  - *Pending Approval / Flagged*: Amber (`#F59E0B`) text and border on low-alpha tint (`rgba(245, 158, 11, 0.08)`).\n  - *Routed to 9Pay / Local Rails*: Violet-Indigo (`#818CF8`) text and border on low-alpha tint (`rgba(129, 140, 248, 0.08)`).\n  - *Failed / Rejection*: Rose (`#F43F5E`) text and border on low-alpha tint (`rgba(244, 63, 94, 0.08)`).\n- **Text & Foreground Spectrum**: Highest hierarchy figures rely on Crisp White (`#F8FAFC`). Secondary metadata uses Slate-400 (`#94A3B8`). Passive structures, disabled items, and rail metadata leverage Slate-500 (`#64748B`).\n\n## Typography\n\nThe typographic hierarchy prioritizes rapid scannability, deterministic vertical alignment, and strict tabular legibility across extensive financial ledgers.\n\n- **Geist (Body & Display)**: Provides a rational, neo-grotesque foundation engineered specifically for high-density digital products. Its neutral aperture, tight kerning tables, and modern vertical metrics preserve clarity across condensed data cards, command headers, and analytical sidebars.\n- **JetBrains Mono (Monetary Figures, Rails, Identifiers, & Badges)**: Assigned universally to monetary balances, batch tracking IDs, Swift/BIC sequences, ISO currency tickers, and numeric data cells. The monospaced width ensures columns of varying amounts align precisely along the decimal axis without horizontal character drifting.\n- **Tabular Figures Execution**: All quantitative layouts must enforce OpenType `tnum` (tabular numbers) and `zero` (slashed zeros) via CSS `font-feature-settings: \"tnum\" 1, \"zero\" 1`.\n\n## Layout & Spacing\n\nThe terminal uses a strict modular dashboard grid calibrated for information density without ocular crowding. \n\n- **Grid Architecture**: \n  - Standard 12-column layout on desktop viewports (1280px and above) with a permanent 240px or collapsed 64px global rail for navigation.\n  - 8-column layout on tablet devices (768px - 1279px).\n  - 4-column single-stack flow on mobile screens (below 768px).\n- **Horizontal Density**: Data table rows default to a compact 36px–40px vertical rhythm. Information-dense cards utilize tight internal padding (`space-md` or `0.75rem`) to maximize visible context above the fold.\n- **Rhythm & Alignment**: Vertical margins follow strict multiples of 4px. Structural dividers between functional regions (e.g., batch overview metrics versus ledger grids) utilize `space-xl` separation with continuous 1px micro-dividers to prevent optical float.\n\n## Elevation & Depth\n\nVisual hierarchy does not rely on heavy, theatrical drop shadows. Instead, it utilizes structural edge definitions, layered dark-slate luminosity tiers, and subtle glassmorphic blurs to reflect depth.\n\n- **Surface Tiers**:\n  - *Base Layer (`#020617`)*: The background canvas underneath all components.\n  - *Container Layer (`#0F172A`)*: Primary cards, data grids, and panel wrappers.\n  - *Elevated Container (`#1E293B`)*: Active drawers, filter modals, flyout menus, and dropdown lists.\n- **Micro-Border Structure**: All modular containers and cards must carry a crisp 1px perimeter border rendered at `rgba(255, 255, 255, 0.08)`. Hovering or selecting interactive modules elevates the border to `rgba(6, 182, 212, 0.4)` (Cyan) or `rgba(255, 255, 255, 0.16)`.\n- **Glassmorphic Atmosphere**: Command bars, contextual header ribbons, and sticky batch action bars leverage a backdrop blur of `12px` to `16px` combined with a dark translucent surface fill (`rgba(15, 23, 42, 0.75)`). This maintains navigational orientation while scanning multi-page transactions.\n- **Ambient Shadows**: Restricted strictly to transient flyouts, context menus, and high-priority confirmation dialogs: `0px 12px 32px -4px rgba(0, 0, 0, 0.5), 0px 4px 12px -2px rgba(6, 182, 212, 0.05)`.\n\n## Shapes\n\nThe shape system employs an institutional, compact radius logic (`roundedness: 1`). Soft 4px (`0.25rem`) corners dominate component architecture, conveying geometric rigor, architectural stability, and operational exactness.\n\n- **Primary Corners**: All interactive buttons, text inputs, table wrappers, segment controllers, and data cells use `4px` corner radii.\n- **Medium Panels & Modals (`rounded-lg`)**: Larger structural panels, batch inspection drawers, and metric stat cards use `8px` (`0.5rem`).\n- **Status Pills & Micro-Badges**: Retain an exception toward full pill-geometry (`9999px`) to immediately visually differentiate state indicators and route markers from standard rectangular interactive elements.\n\n## Components\n\n### Action Buttons\n- **Primary Execution**: Cyan-500 (`#06B6D4`) background, Slate-950 (`#020617`) typography in medium weight (`500`). Hover elevates surface to Cyan-400 (`#22D3EE`) with an ambient outer glow (`box-shadow: 0 0 12px rgba(6, 182, 212, 0.3)`). Active state applies a 1px downward translation.\n- **Secondary / Operational**: Dark slate fill (`#1E293B`) with a 1px border (`rgba(255, 255, 255, 0.1)`), Slate-100 typography. Hover transitions the border to Slate-400 (`#94A3B8`).\n- **Destructive**: Rose-500/10 tint with Rose-400 (`#FB7185`) border and text. On hover, shifts to solid Rose-600 with white text.\n\n### Settlement & Route Status Badges\nPill-shaped containers with an uppercase `badge-label` monospaced font, 1px perimeter border, and a subtle pulsating or static status dot:\n- **Settled**: Green-500/10 background, `#10B981` text, `#10B981`/30 border.\n- **Processing**: Cyan-500/10 background, `#06B6D4` text, `#06B6D4`/30 border with an animated radar pulse on the dot.\n- **Pending Approval**: Amber-500/10 background, `#F59E0B` text, `#F59E0B`/30 border.\n- **Routed to 9Pay**: Violet-500/10 background, `#818CF8` text, `#818CF8`/30 border, accompanied by an inline directional arrow icon.\n\n### High-Density Data Grids\n- **Header Row**: 32px height, uppercase `badge-label` styling in Slate-400, background tone of `#0B0F19`, bottom border 1px solid `rgba(255, 255, 255, 0.08)`.\n- **Data Rows**: 40px height, hover state transitions row background to `rgba(255, 255, 255, 0.02)`. Border divider between rows is 1px solid `rgba(255, 255, 255, 0.04)`. Numeric values right-aligned using `data-mono` font.\n- **Selection**: Selected rows feature an active 2px left border accent in Cyan-500 (`#06B6D4`) and a subtle surface tint of `rgba(6, 182, 212, 0.03)`.\n\n### Input Fields & Search Bars\n- Background `#0B0F19` with a 1px border of `rgba(255, 255, 255, 0.1)`. Height of 36px.\n- Focus state removes default browser rings, applying a 1px Cyan-500 border and an inner/outer shadow halo: `0 0 0 1px #06B6D4, 0 0 8px rgba(6, 182, 212, 0.2)`.\n- Monospaced numeric entry for transfer amounts with fixed ISO currency prefixes (`USD`, `EUR`, `SGD`, `VND`).\n\n### Selection Controls (Checkboxes & Radios)\n- Square (4px radius) for checkboxes, circular for radios. Base background `#0B0F19` with 1px border `#334155`.\n- Checked state fills with Cyan-500 (`#06B6D4`) with a dark slate check icon.\n\n### Batch Processing Cards\n- Container modules displaying aggregate volume, corridor route (e.g., `USD -> VND via 9Pay`), batch count, and approval workflows.\n- Header displays batch reference ID in `data-mono-bold` with an interactive \"Copy\" micro-action, current execution state, and progress timeline indicator displaying stages: *Initiated -> Compliance Verified -> FX Locked -> Dispatched to Rails*.",
+                  "font": "GEIST",
+                  "headlineFont": "GEIST",
+                  "headlineFontFamily": "Geist",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "JetBrains Mono",
+                  "namedColors": {
+                    "background": "#0b1326",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#283044",
+                    "inverse_primary": "#00687a",
+                    "inverse_surface": "#dae2fd",
+                    "on_background": "#dae2fd",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#003640",
+                    "on_primary_container": "#00424f",
+                    "on_primary_fixed": "#001f26",
+                    "on_primary_fixed_variant": "#004e5c",
+                    "on_secondary": "#003824",
+                    "on_secondary_container": "#00311f",
+                    "on_secondary_fixed": "#002113",
+                    "on_secondary_fixed_variant": "#005236",
+                    "on_surface": "#dae2fd",
+                    "on_surface_variant": "#bcc9cd",
+                    "on_tertiary": "#1000a9",
+                    "on_tertiary_container": "#211cb4",
+                    "on_tertiary_fixed": "#07006c",
+                    "on_tertiary_fixed_variant": "#2f2ebe",
+                    "outline": "#869397",
+                    "outline_variant": "#3d494c",
+                    "primary": "#4cd7f6",
+                    "primary_container": "#06b6d4",
+                    "primary_fixed": "#acedff",
+                    "primary_fixed_dim": "#4cd7f6",
+                    "secondary": "#4edea3",
+                    "secondary_container": "#00a572",
+                    "secondary_fixed": "#6ffbbe",
+                    "secondary_fixed_dim": "#4edea3",
+                    "surface": "#0b1326",
+                    "surface_bright": "#31394d",
+                    "surface_container": "#171f33",
+                    "surface_container_high": "#222a3d",
+                    "surface_container_highest": "#2d3449",
+                    "surface_container_low": "#131b2e",
+                    "surface_container_lowest": "#060e20",
+                    "surface_dim": "#0b1326",
+                    "surface_tint": "#4cd7f6",
+                    "surface_variant": "#2d3449",
+                    "tertiary": "#c0c1ff",
+                    "tertiary_container": "#9a9dff",
+                    "tertiary_fixed": "#e1e0ff",
+                    "tertiary_fixed_dim": "#c0c1ff"
+                  },
+                  "overrideNeutralColor": "#0f172a",
+                  "overridePrimaryColor": "#06b6d4",
+                  "overrideSecondaryColor": "#10b981",
+                  "overrideTertiaryColor": "#6366f1",
+                  "roundness": "ROUND_FOUR",
+                  "spacing": {
+                    "gutter": "1rem",
+                    "gutter-desktop": "1.25rem",
+                    "gutter-tablet": "0.75rem",
+                    "margin": "1rem",
+                    "margin-desktop": "2rem",
+                    "margin-tablet": "1.5rem",
+                    "space-lg": "1.25rem",
+                    "space-md": "0.75rem",
+                    "space-sm": "0.5rem",
+                    "space-xl": "2rem",
+                    "space-xs": "0.25rem"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "badge-label": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.6875rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.04em",
+                      "lineHeight": "0.875rem"
+                    },
+                    "body-caption": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.75rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1rem"
+                    },
+                    "body-default": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.875rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "-0.005em",
+                      "lineHeight": "1.375rem"
+                    },
+                    "body-medium": {
+                      "fontFamily": "Geist",
+                      "fontSize": "0.875rem",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.005em",
+                      "lineHeight": "1.375rem"
+                    },
+                    "data-mono": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.8125rem",
+                      "fontWeight": "400",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1.125rem"
+                    },
+                    "data-mono-bold": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "0.8125rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "0em",
+                      "lineHeight": "1.125rem"
+                    },
+                    "display-hero": {
+                      "fontFamily": "Geist",
+                      "fontSize": "2.5rem",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.03em",
+                      "lineHeight": "3rem"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Geist",
+                      "fontSize": "1.75r

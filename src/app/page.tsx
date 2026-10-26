@@ -7,6 +7,7 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { PayrollBatch } from '@/types';
 import { formatLosslessAmount, sumAmounts } from '@/lib/utils/currency';
 import { CreateBatchModal } from '@/features/payouts/CreateBatchModal';
+import { GeminiAdvisorDrawer } from '@/components/modals/GeminiAdvisorDrawer';
 import {
   PlusCircle,
   Sparkles,
@@ -28,6 +29,8 @@ export default function DashboardOverviewPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
   const [demoSimulating, setDemoSimulating] = useState(false);
+  const [aiDrawerBatch, setAiDrawerBatch] = useState<PayrollBatch | null>(null);
+
 
   const fetchBatches = useCallback(async () => {
     try {
@@ -163,6 +166,18 @@ export default function DashboardOverviewPage() {
             </button>
 
             <button
+              onClick={() => {
+                if (batches.length > 0) setAiDrawerBatch(batches[0]);
+              }}
+              disabled={batches.length === 0}
+              className="px-3.5 py-2 text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg shadow-sm transition flex items-center gap-1.5 disabled:opacity-40"
+              title="Open AI Risk Advisor"
+            >
+              <Sparkles size={14} className="text-amber-500" />
+              <span>AI Risk Scan</span>
+            </button>
+
+            <button
               onClick={handleRunFullDemoFlow}
               disabled={demoSimulating}
               className="px-3.5 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 rounded-lg shadow-sm transition flex items-center gap-1.5 disabled:opacity-50"
@@ -172,6 +187,7 @@ export default function DashboardOverviewPage() {
                 {demoSimulating ? 'Simulating 4-step Flow...' : '⚡ Instant 3-Person Demo'}
               </span>
             </button>
+
 
             <a
               href="/batches/new"
@@ -372,6 +388,13 @@ export default function DashboardOverviewPage() {
           )}
         </div>
       </div>
+      {/* Gemini AI Advisor Drawer */}
+      <GeminiAdvisorDrawer
+        batch={aiDrawerBatch || (batches.length > 0 ? batches[0] : null)}
+        isOpen={Boolean(aiDrawerBatch)}
+        onClose={() => setAiDrawerBatch(null)}
+      />
     </AppShell>
   );
 }
+

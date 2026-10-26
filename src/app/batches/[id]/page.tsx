@@ -21,6 +21,10 @@ import {
   Receipt,
 } from 'lucide-react';
 
+import { DualControlSignoffModal } from '@/components/modals/DualControlSignoffModal';
+import { SettlementDispatchModal } from '@/components/modals/SettlementDispatchModal';
+import { GeminiAdvisorDrawer } from '@/components/modals/GeminiAdvisorDrawer';
+
 export default function BatchDetailPage({
   params,
 }: {
@@ -34,8 +38,14 @@ export default function BatchDetailPage({
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [aiSummary, setAiSummary] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'roster' | 'audit' | 'ai'>('roster');
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+
+  // Modals state
+  const [signoffModalOpen, setSignoffModalOpen] = useState(false);
+  const [dispatchModalOpen, setDispatchModalOpen] = useState(false);
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
+
 
   const fetchBatch = async () => {
     try {
@@ -218,13 +228,14 @@ export default function BatchDetailPage({
               <span>Refresh Status</span>
             </button>
             <button
-              onClick={handleLoadAI}
+              onClick={() => setAiDrawerOpen(true)}
               className="px-3.5 py-1.5 bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition"
             >
               <Sparkles size={14} className="text-amber-500" />
               <span>AI Risk Review</span>
             </button>
           </div>
+
         </div>
 
         {error && (
@@ -413,30 +424,24 @@ export default function BatchDetailPage({
 
             {batch.status === 'VALIDATED' && (
               <button
-                onClick={handleApprove}
-                disabled={actionLoading === 'approve'}
-                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md transition disabled:opacity-50"
+                onClick={() => setSignoffModalOpen(true)}
+                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md transition flex items-center gap-2"
               >
-                {actionLoading === 'approve'
-                  ? 'Signing Sign-off...'
-                  : 'Executive Approve (Step 2)'}
+                <ShieldCheck size={15} />
+                <span>Executive Sign-off (Step 2)</span>
               </button>
             )}
 
             {batch.status === 'APPROVED' && (
               <button
-                onClick={handleExecute}
-                disabled={actionLoading === 'execute'}
-                className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg text-xs font-bold shadow-lg shadow-indigo-500/40 transition disabled:opacity-50 flex items-center gap-2"
+                onClick={() => setDispatchModalOpen(true)}
+                className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg text-xs font-bold shadow-lg shadow-indigo-500/40 transition flex items-center gap-2"
               >
                 <Send size={14} />
-                <span>
-                  {actionLoading === 'execute'
-                    ? 'Dispatching via 9Pay...'
-                    : 'Execute 9Pay Payout (Step 3)'}
-                </span>
+                <span>Execute 9Pay Payout (Step 3)</span>
               </button>
             )}
+
 
             {batch.status === 'COMPLETED' && (
               <div className="px-4 py-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-semibold flex items-center gap-2">
@@ -578,14 +583,16 @@ export default function BatchDetailPage({
                       Gemini Advisory Analysis
                     </span>
                   </div>
-                  <span className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded font-semibold text-[10px]">
-                    Read-Only Mode
-                  </span>
+                  <button
+                    onClick={() => setAiDrawerOpen(true)}
+                    className="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-bold text-xs"
+                  >
+                    Open Full AI Intelligence Drawer →
+                  </button>
                 </div>
 
                 <p className="text-slate-700 leading-relaxed font-medium">
-                  {aiSummary ||
-                    `Batch "${batch.title}" is currently in ${batch.status} state. Total budget of ${formatLosslessAmount(batch.sourceAmountTotal, batch.asset)} is properly structured across ${batch.items.length} recipient(s). All accounts are mapped to Vietnamese banking rails.`}
+                  {`Batch "${batch.title}" is currently in ${batch.status} state. Total budget of ${formatLosslessAmount(batch.sourceAmountTotal, batch.asset)} is properly structured across ${batch.items.length} recipient(s). All accounts are mapped to Vietnamese banking rails.`}
                 </p>
 
                 <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 text-[11px]">
@@ -597,7 +604,29 @@ export default function BatchDetailPage({
             )}
           </div>
         </div>
+
+        {/* Interactive Modals */}
+        <DualControlSignoffModal
+          batch={batch}
+          isOpen={signoffModalOpen}
+          onClose={() => setSignoffModalOpen(false)}
+          onConfirm={handleApprove}
+        />
+
+        <SettlementDispatchModal
+          batch={batch}
+          isOpen={dispatchModalOpen}
+          onClose={() => setDispatchModalOpen(false)}
+          onExecute={handleExecute}
+        />
+
+        <GeminiAdvisorDrawer
+          batch={batch}
+          isOpen={aiDrawerOpen}
+          onClose={() => setAiDrawerOpen(false)}
+        />
       </div>
     </AppShell>
   );
 }
+
