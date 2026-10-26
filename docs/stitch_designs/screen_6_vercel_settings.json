@@ -1,0 +1,49 @@
+{
+  "outputComponents": [
+    {
+      "design": {
+        "screens": [
+          {
+            "deviceType": "DESKTOP",
+            "generatedBy": "create_datastore_entry",
+            "height": "3380",
+            "htmlCode": {
+              "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzkzNzc2ZmU5NmU2YTQ3Nzg5NGE3OWIzMmQ0ZGQ1YjIyEgsSBxC-1qiWrx4YAZIBJAoKcHJvamVjdF9pZBIWQhQxNzYzMDU5MjE1NzAyOTk4MDA4NA&filename=&opi=96797242",
+              "mimeType": "text/html",
+              "name": "projects/17630592157029980084/files/f422d592ff194bbd811773b58f9b0309"
+            },
+            "id": "02c213f6fbbd4408a336da72f13cd4f7",
+            "name": "projects/17630592157029980084/screens/02c213f6fbbd4408a336da72f13cd4f7",
+            "screenMetadata": {
+              "agentType": "PRO_AGENT",
+              "status": "COMPLETE"
+            },
+            "screenType": "DESIGN",
+            "screenshot": {
+              "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1Xcy6aA5viu4-JBy3VeqSaeSdDN1ErZnhTXn5XApeAOFXuPjUOPCoxfJ8T28w7YNhFotEY5zWYj8to4YeS31H-WByjlRwNJUf9RjQ50mGw3W2CaeOlTnRBZlF0M9ZhGokv6aOhLQkgl-nx9GYS5WXRZoBOUKx4MwUoAxrtu41hc36PaYdJbZ9gbTCJ8Q-G2k2CULIL7CVhird-vLTUf5WoPuyQ0l977g606h_ZQprX5t6hQihuDSqKqfdoS",
+              "name": "projects/17630592157029980084/files/e94ccca22f51416183daf004435215be"
+            },
+            "theme": {},
+            "title": "PayBridge - Vercel Settlement Rails & Financial Invariant Engine (/settings)",
+            "width": "2560"
+          }
+        ],
+        "theme": {}
+      }
+    },
+    {
+      "text": "Tôi đã thiết kế hoàn tất màn hình **PayBridge - Vercel Settlement Rails & Financial Invariant Engine (`/settings`)** chuẩn theo ngôn ngữ thiết kế **Vercel / Geist** tối giản, thanh lịch và chuyên nghiệp cho hệ thống tài chính doanh nghiệp:\n\n### Chi tiết thiết kế:\n1. **Phong cách Vercel / Geist (Clean White Minimalist):**\n   - Nền trắng tinh tế (`#ffffff`), viền thẻ 1px xám mảnh (`border-zinc-200`), font chữ Geist & Geist Mono tương phản cao.\n   - Thanh điều hướng trên cùng chuẩn Vercel với switcher tổ chức (`Acme Global Ltd [emp_acme_vn]`), trạng thái NAPAS 12ms và các tab chuyển đổi liền mạch.\n2. **Section 1: Các Kênh Kết nối & Cổng Thanh toán (3-Card Grid):**\n   - **9Pay Vietnam Gateway:** Viền emerald active, badge *Testnet Chi Hộ*, thông số endpoint `sandbox.9pay.vn`, NAPAS 24/7 & Ví 9Pay, độ trễ 12ms–18ms, giao thức mTLS 1.3 strict.\n   - **Mock Payout Simulator:** Viền blue active, badge *Đang hoạt động*, độ trễ 500ms jitter, tỷ lệ 100%, cơ chế Circuit Breaker tự động ngắt (>2,500ms).\n   - **Stellar SEP-31 Anchor Rail:** Thẻ làm mờ nhẹ (muted state), badge *Giai đoạn 2*, ghi chú rõ nằm ngoài phạm vi MVP đầu tiên và chờ cấp phép Circular 35.\n3. **Section 2: Các Nguyên tắc An toàn Tài chính Bất biến (Financial Invariants):**\n   - Thẻ đánh số monospace `01`, `02`, `03`, `04` với nhãn `MATHEMATICALLY ENFORCED`:\n     1. **Toán học Chính xác Tuyệt đối:** Ràng buộc BigInt 64-bit, cấm float IEEE-754, quy chuẩn sai số `0.00000000 VND`.\n     2. **Kiểm soát kép Phê duyệt (Dual-Control):** Tiêu chuẩn SEC-804 / BR-01, chữ ký FIDO2 WebAuthn (YubiKey / TouchID) quorum 2-of-3.\n     3. **Khoá Chống Trùng lặp Giao dịch:** Idempotency Key băm SHA-256 duy nhất, TTL strict memory cache 72 giờ, trả về HTTP 409 khi trùng lặp.\n     4. **Tuyệt đối Không để Lộ Bí mật:** Zero Secrets in Git, kiểm soát khóa cứng tại Enclave HSM Node, quét commit TruffleHog & Gitleaks 100%.\n4. **Section 3: Quy tắc An toàn AI (Gemini AI Risk Engine):**\n   - Khung cảnh báo nổi bật với badge **`NO MONEY-MOVEMENT AUTHORITY`**; xác định rõ quyền hạn AI thuần túy cố vấn (Advisory Only), bị cô lập hoàn toàn khỏi scope API dispatch và 100% đòi hỏi Human-in-the-Loop.\n   - Footer chứng thực mật mã tuân thủ Thông tư 35/2016/TT-NHNN và Merkle root hash."
+    },
+    {
+      "suggestion": "Thêm modal cấu hình chi tiết cho 9Pay API keys & webhook HMAC"
+    },
+    {
+      "suggestion": "Bổ sung trang Sổ cái kiểm toán (/audit) đồng bộ phong cách Vercel trắng sáng"
+    },
+    {
+      "suggestion": "Tạo giao diện kiểm thử mô phỏng Circuit Breaker Failover cho Sandbox"
+    }
+  ],
+  "projectId": "17630592157029980084",
+  "sessionId": "9307049878543933261"
+}
