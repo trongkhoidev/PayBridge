@@ -248,13 +248,48 @@ Layout Structure:
 
 ## 4. Hướng dẫn sử dụng trên Google Stitch
 
-1. **Tạo Project mới trên Google Stitch**: Đặt tên `PayBridge Fintech Portal`.
-2. **Import Design Tokens**: Tải nội dung Section 2 của tài liệu này hoặc file `DESIGN.md` vào phần Design System Tokens của Stitch.
-3. **Sinh từng màn hình**: Copy lần lượt các **Stitch Prompt 1 đến 7** ở Section 3 vào ô prompt của Stitch.
-4. **Liên kết luồng (Prototyping Interaction)**:
-   - Nút `+ New Payout Batch` ở Topbar & Dashboard → mở `Screen 2 (/batches/new)`.
-   - Nút `Confirm & Register Draft Batch` ở Wizard Step 3 → chuyển sang `Screen 3 (/batches/:id)`.
-   - Nút `Validate Accounts (Step 1)` → cập nhật Stepper lên bước 2.
-   - Nút `Executive Approve (Step 2)` → cập nhật Stepper lên bước 3.
-   - Nút `Execute 9Pay Payout (Step 3)` → hoàn thành Stepper lên bước 4 và hiển thị mã tham chiếu.
-   - Tab bên trái chuyển đổi giữa Dashboard (`/`), Danh bạ (`/recipients`), Sổ cái (`/audit`), và Cấu hình (`/settings`).
+1. **Truy cập Google Stitch Canvas**: [https://stitch.withgoogle.com/](https://stitch.withgoogle.com/)
+2. **Project ID**: `17630592157029980084` (`PayBridge - Cross-Border Settlement`)
+3. **Tài khoản GCP / Stitch**: `trongkhoidev@gmail.com`
+4. **Design System**: `PayBridge Executive Terminal` (Geist + JetBrains Mono, Dark Slate `#0B1326`, Cyan `#06B6D4`, Emerald `#10B981`)
+
+---
+
+## 5. Danh mục 7 Màn hình & Dialogs Đã Generate Thành Công trên Google Stitch Canvas
+
+Toàn bộ hệ thống giao diện người dùng PayBridge (6 màn hình chính + 1 canvas hoàn chỉnh của hệ thống Dialogs/Modals/Drawers) đã được sinh trực tiếp trên Google Stitch project `17630592157029980084`:
+
+| STT | Tên màn hình / Chức năng | Resource Name trên Stitch | Screenshot Preview URL |
+|---|---|---|---|
+| **Screen 1** | **Executive Overview & Payroll Batches (`/`)** | `projects/17630592157029980084/screens/afd97c90f5804e03ae36ccaf3e75c596` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1UxUEa2r1OzgvoGyRc7UKHhOXJrYWQLJZ5d7U1-3ECLkXH5p1SUjKcXf6RZoTAO2j4EkFH8GtdGjP0rB3MrlnREogbNsA8KbdTVOMFpkwEj6ncYl5C6g4G-neuUmC-hWYprnu1gFCyHs8SfabNj7AHcErDh366pCA4--iogVXsyBDi3NzZXIshxKSfKb_XvZgjh4Uc3kunkns2ZVHL9s8oMx8BUkpQV92saQAjapPFkuXPhZGz-a6aSxDUf) |
+| **Screen 2** | **3-Step Payroll Batch Wizard (`/batches/new`)** | `projects/17630592157029980084/screens/fb7d1dd07a9c4a4a98cccd327e6d25c2` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1WjAfCAnpNqZSUSqmNdPuJxbfwnCM_TCxv0BsemTXFQWt1RSBd6MJJZE-hvcrEkvgCUnunqf99NaEn9Vr4QiaPYb2xnJ9_pLzFKm8Da_NWiljQ6U44XYKaDsnknZiVoVsWYGfwRh9pemzxmqOfwRb_dbUS-eRRg8U5mBWgIo5MpssD1HAhPiGhWWmrh0EP-jgA8Q89zk_sW6x6N03SPMHxpi17j-BJsvdMxYhI-wYFs0us6ySHEUjhD7So) |
+| **Screen 3** | **Batch Command Center & Dual-Control Sign-off (`/batches/:id`)** | `projects/17630592157029980084/screens/4397248788c243c6bef56eeaf99b8efc` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1XOnFnO-0fXKWFEk59Cogcj8uDG6Zht6tLfT4d-5FMDzrsliTvujbDnJoYZDGSM3lp8iLpv2NnA-E3nwlxRuLHqug3uSsvg0OAkunP-CWxsZazTyzbsO79xTk3XH9HCONtUkl7HjjbrTf3gcV7kcF5xJzpsiIfp3Fn2IAeha9iEesWAM_i-1rUPl1paM3stsLOqj1K94jxTGKs4Jd4hr8XXgXfmT0jzCuGWoWuGnvYe4Ec8lAkw1_gIvs--) |
+| **Screen 4** | **Beneficiary & Contractor Vault + Drawer (`/recipients`)** | `projects/17630592157029980084/screens/15c483b1807b41a180f0b3f53123f074` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1VCN4UBSZpVirn2367BOW-F3UBQQzraO5YevjUmXuqyK86H_mLrg_xmCIM6qfaBd6lThzOKuDdNYaif2aJV8IrBjsUbOWu6GFq0CEfjIAsIiRPQUCTh9Zsba1zW6_CRHWEnpmRCPilMY38z6p-ksyroivVJY5PUbxqbkoR6T3k-QYN9pljsXMGVbEVaMfnQPyqcGBN2CKhaIMVnAHVbihVcH6KXEZff8F3Hwb0Of3UxCCtaPAycs2l_iYkT) |
+| **Screen 5** | **Immutable Compliance & Settlement Audit Ledger (`/audit`)** | `projects/17630592157029980084/screens/5fa52115cf67489a823c9a833d2787d2` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1Xz4j-tdrdhOawm6HZRbLaigbuxEyEFJtT5kBsfd2aJj7Elex1aRnj6KC6hB-Mtbwh0qr3wd16dnsZWkgWDj5-PnXVX0u_Yw8ca1io1lxVKp0BbPne7aGjOTY6LIh8QMT8XA3Fxahdgsl2YQUkEtA3fC611NWJcuXdMupPkDusxBGivgSVQk8jPMdSXedTotrkETc0sGZa_JcIA9ZwpYmsSkHx-4Vv0DblUEnv2Q8PP-FcJUdxZXbZO4gY) |
+| **Screen 6** | **Multi-Rail Settlement Settings & Invariants Engine (`/settings`)** | `projects/17630592157029980084/screens/a904228004cb48bf8a0d04f2cf86b613` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1V6ys72Z-qGPXSWXXzUh6AKDKvCP8y5dhCgC4ojzUlwRdZt3rqspMGnVMIgCVXa7OfFdo1BfD7MvfBL1WxYnBez4-mjKsMFIZ2cFqrpQXb-oVic6VaBJqPIv1aehI9W6fiBBt7Zo5bVdY3rqVDl1_Ba2NmGaYfAPBTeXZx7VE1atXm1uDzrLm7qr9rLcg2Gkr15ZBH9G5QA3MJm6BgjCm5pjolDLyAaYBnvcoGFXqPUMWqw-iHgtLBDF-4) |
+| **Screen 7** | **Interactive Modals, Popups & Gemini AI Drawer System** | `projects/17630592157029980084/screens/b81915f9548846a99b70e04cf01de848` | [Xem ảnh Screenshot](https://lh3.googleusercontent.com/aida/AEtjO1W3YQUseYN2d72hjl7k2_iMTBKBxNN2u52pdrhAy8SPpALqYFYi6hAt1fNUeckb86EubjCTLEZl0NTeNgvXzOba1GdQbNK9Xj3BmL_BTr99dYpMHLTVqQxEk5eVXLOSW3RZiMNwhgBXf8roUAqQnqi0OelgCc0s5uwnkO2PWdewlBUmSRHhF-lbZ1dPJrT0QrTFqzy1fL95fiPOD37zWzBnGZ-7qF9MlbI2dqm50-Xa2HLFqne5AYyvUtn_) |
+
+---
+
+## 6. Chi tiết Hệ thống Dialogs, Popups và Drawers Phía Client
+
+Song song với bản vẽ Stitch, toàn bộ các Modal / Popup / Drawer đã được hiện thực mã nguồn Next.js 15 + Tailwind CSS tương tác thật:
+
+1. **`DualControlSignoffModal.tsx` (`src/components/modals/DualControlSignoffModal.tsx`)**:
+   - Tuân thủ quy chuẩn SEC-804 về ký duyệt kiểm soát kép (Dual Control).
+   - Tóm tắt tổng tiền lossless `sourceAmountTotal`, số nhân sự, và danh sách tài khoản thụ hưởng.
+   - Bắt buộc tích xác nhận tuân thủ pháp lý trước khi mở khoá nút ký duyệt.
+   - Mô phỏng nhập PIN / FIDO2 Passkey Biometric touch với visual fingerprint.
+2. **`SettlementDispatchModal.tsx` (`src/components/modals/SettlementDispatchModal.tsx`)**:
+   - Quá trình điều hướng chi trả 4 giai đoạn hoạt hoạ trực tiếp:
+     - Giai đoạn 1: Xác thực chữ ký điện tử Approver.
+     - Giai đoạn 2: Bắt tay Gateway 9Pay Sandbox / Testnet.
+     - Giai đoạn 3: Điều phối lệnh chuyển mạch nhanh NAPAS 24/7.
+     - Giai đoạn 4: Trả biên lai giải ngân kèm Transaction Reference ID (`MOCK-9PAY-TXN-...`).
+3. **`GeminiAdvisorDrawer.tsx` (`src/components/modals/GeminiAdvisorDrawer.tsx`)**:
+   - Drawer trượt từ mép phải màn hình hỗ trợ phân tích rủi ro tài chính.
+   - Thước đo chỉ số bất thường Anomaly Score (`0.04 / 10.0` - Rủi ro cực thấp).
+   - Công cụ tính nhanh khấu trừ thuế TNCN vãng lai 10% (Gross vs PIT Withholding vs Net Disbursed).
+   - Cảnh báo các khoản chi trả giá trị cao (>100M VND) và các prompt hỗ trợ soạn biên bản Hội đồng Quản trị.
+4. **`Add Contractor Drawer` (trong `src/app/recipients/page.tsx`)**:
+   - Drawer tạo mới thụ hưởng với kiểm tra tài khoản ngân hàng NAPAS, mã số thuế và lựa chọn kênh ví điện tử 9Pay.

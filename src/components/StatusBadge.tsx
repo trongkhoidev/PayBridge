@@ -6,42 +6,56 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  let colorStyles = 'bg-slate-100 text-slate-700 border-slate-300';
+  let dotColor = 'bg-zinc-400';
+  let label = status as string;
 
   switch (status) {
     case 'DRAFT':
+      dotColor = 'bg-zinc-400';
+      label = 'Bản nháp';
+      break;
     case 'PENDING':
-      colorStyles = 'bg-slate-100 text-slate-700 border-slate-300';
+      dotColor = 'bg-amber-400';
+      label = 'Chờ duyệt';
       break;
     case 'VALIDATED':
-      colorStyles = 'bg-blue-50 text-blue-700 border-blue-300';
+      dotColor = 'bg-sky-500';
+      label = 'Đã kiểm tra';
       break;
     case 'QUOTED':
-      colorStyles = 'bg-purple-50 text-purple-700 border-purple-300';
+      dotColor = 'bg-purple-500';
+      label = 'Đã báo giá';
       break;
     case 'APPROVED':
-      colorStyles = 'bg-emerald-50 text-emerald-800 border-emerald-300';
+      dotColor = 'bg-blue-600';
+      label = 'Đã duyệt';
       break;
     case 'PROCESSING':
     case 'SUBMITTED':
-      colorStyles = 'bg-amber-50 text-amber-800 border-amber-300 animate-pulse';
+      dotColor = 'bg-indigo-500 animate-pulse';
+      label = 'Đang chuyển tiền';
       break;
     case 'COMPLETED':
     case 'SUCCESS':
-      colorStyles = 'bg-green-100 text-green-900 border-green-400 font-semibold';
+      dotColor = 'bg-emerald-500';
+      label = 'Hoàn tất';
       break;
     case 'FAILED':
-      colorStyles = 'bg-rose-100 text-rose-800 border-rose-300';
+      dotColor = 'bg-red-500';
+      label = 'Thất bại';
       break;
     case 'REQUIRES_REVIEW':
     case 'PARTIALLY_FAILED':
-      colorStyles = 'bg-orange-100 text-orange-900 border-orange-300 font-medium';
+      dotColor = 'bg-amber-500';
+      label = 'Cần kiểm tra';
       break;
   }
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${colorStyles}`}>
-      {status}
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-white border border-zinc-200 text-zinc-800 shadow-vercel-sm">
+      <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+      <span>{label}</span>
+      <span className="text-[10px] text-zinc-400 font-mono">({status})</span>
     </span>
   );
 }

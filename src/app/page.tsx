@@ -6,28 +6,29 @@ import { AppShell } from '@/components/layout/AppShell';
 import { StatusBadge } from '@/components/StatusBadge';
 import { PayrollBatch } from '@/types';
 import { formatLosslessAmount, sumAmounts } from '@/lib/utils/currency';
-import { CreateBatchModal } from '@/features/payouts/CreateBatchModal';
+import { GeminiAdvisorDrawer } from '@/components/modals/GeminiAdvisorDrawer';
 import {
-  PlusCircle,
+  Plus,
   Sparkles,
   RefreshCw,
-  Search,
-  Filter,
   ArrowRight,
   TrendingUp,
   Clock,
   ShieldCheck,
   CheckCircle2,
-  Building,
+  Users,
+  Coins,
+  Search,
 } from 'lucide-react';
 
 export default function DashboardOverviewPage() {
   const router = useRouter();
   const [batches, setBatches] = useState<PayrollBatch[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
   const [demoSimulating, setDemoSimulating] = useState(false);
+  const [aiDrawerBatch, setAiDrawerBatch] = useState<PayrollBatch | null>(null);
 
   const fetchBatches = useCallback(async () => {
     try {
@@ -62,13 +63,16 @@ export default function DashboardOverviewPage() {
   const pendingApprovalCount = batches.filter((b) => b.status === 'VALIDATED').length;
   const draftCount = batches.filter((b) => b.status === 'DRAFT').length;
 
-  // Filter batches by tab
+  // Filter batches by tab & search query
   const filteredBatches = batches.filter((b) => {
-    if (filterStatus === 'ALL') return true;
-    return b.status === filterStatus;
+    const matchesTab = filterStatus === 'ALL' || b.status === filterStatus;
+    const matchesSearch =
+      b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      b.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTab && matchesSearch;
   });
 
-  // Instant 1-Click Demo Simulator: creates, validates, approves & executes a 3-recipient batch
+  // 1-Click Demo Simulator: creates, validates, approves & executes a 3-recipient batch
   const handleRunFullDemoFlow = async () => {
     setDemoSimulating(true);
     try {
@@ -77,26 +81,26 @@ export default function DashboardOverviewPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: `Demo Sprint 42 Payout (Auto-Run ${new Date().toLocaleTimeString()})`,
+          title: `Đợt chi trả Sprint 42 (Mô phỏng lúc ${new Date().toLocaleTimeString('vi-VN')})`,
           employerId: 'emp_acme_vn',
           asset: 'VND',
           items: [
             {
-              recipientName: 'Nguyen Van A',
+              recipientName: 'Nguyễn Văn An',
               recipientReference: '9704050012345678',
               bankCode: 'VCB',
               amount: '15000000',
               asset: 'VND',
             },
             {
-              recipientName: 'Tran Thi B',
+              recipientName: 'Trần Thị Mai',
               recipientReference: '9704220087654321',
               bankCode: 'MB',
               amount: '22000000',
               asset: 'VND',
             },
             {
-              recipientName: 'Le Hoang C',
+              recipientName: 'Lê Hoàng Long',
               recipientReference: '0912345678',
               bankCode: '9PAY_WALLET',
               amount: '8500000',
@@ -142,226 +146,237 @@ export default function DashboardOverviewPage() {
   return (
     <AppShell>
       <div className="space-y-6">
-        {/* Executive Welcome & Actions Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
+        {/* Vercel Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-zinc-200">
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-              Payroll Batches Command Center
+            <h1 className="text-xl font-semibold tracking-tight text-zinc-950">
+              Đợt chi trả nhân sự
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
-              Prepare, audit, dual-approve, and disburse batched payouts to Vietnamese contractors.
+            <p className="text-xs text-zinc-500 mt-0.5">
+              Quản lý, đối soát và giải ngân cho đội ngũ kỹ sư và freelancer tại Việt Nam.
             </p>
           </div>
 
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => fetchBatches()}
-              className="p-2 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg shadow-sm transition"
-              title="Refresh"
+              className="p-2 text-zinc-600 hover:text-black bg-white border border-zinc-200 hover:bg-zinc-50 rounded-md shadow-vercel-sm transition"
+              title="Làm mới danh sách"
             >
-              <RefreshCw size={15} />
+              <RefreshCw size={14} />
+            </button>
+
+            <button
+              onClick={() => {
+                if (batches.length > 0) setAiDrawerBatch(batches[0]);
+              }}
+              disabled={batches.length === 0}
+              className="px-3 py-1.5 text-xs font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-md shadow-vercel-sm transition flex items-center gap-1.5 disabled:opacity-40"
+            >
+              <Sparkles size={13} className="text-zinc-500" />
+              <span>Trợ lý Rủi ro AI</span>
             </button>
 
             <button
               onClick={handleRunFullDemoFlow}
               disabled={demoSimulating}
-              className="px-3.5 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 rounded-lg shadow-sm transition flex items-center gap-1.5 disabled:opacity-50"
+              className="px-3 py-1.5 text-xs font-medium text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded-md shadow-vercel-sm transition flex items-center gap-1.5 disabled:opacity-50"
             >
-              <Sparkles size={14} className="text-amber-500" />
-              <span>
-                {demoSimulating ? 'Simulating 4-step Flow...' : '⚡ Instant 3-Person Demo'}
-              </span>
+              <span>{demoSimulating ? 'Đang chạy mô phỏng...' : '⚡ Chạy thử 3 người'}</span>
             </button>
 
             <a
               href="/batches/new"
-              className="px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/30 transition flex items-center gap-1.5"
+              className="px-3.5 py-1.5 text-xs font-medium text-white bg-black hover:bg-zinc-800 rounded-md shadow-vercel-sm transition flex items-center gap-1.5"
             >
-              <PlusCircle size={15} />
-              <span>Create Payout Batch</span>
+              <Plus size={14} />
+              <span>Tạo đợt chi mới</span>
             </a>
           </div>
         </div>
 
-        {/* Executive KPI Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {/* Total Disbursed */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">Total Settled</span>
-              <span className="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                <CheckCircle2 size={14} />
-              </span>
-            </div>
-            <p className="text-xl sm:text-2xl font-black font-mono text-slate-900 tracking-tight">
+        {/* Minimalist Vercel KPI Metric Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: Total Disbursed */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Tổng số tiền đã giải ngân
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
               {formatLosslessAmount(totalDisbursedVND, 'VND')}
             </p>
-            <p className="text-[10px] text-emerald-600 font-semibold">
-              {completedBatches.length} batch(es) completed
-            </p>
+            <span className="text-[11px] text-zinc-500 block pt-0.5">
+              {completedBatches.length} đợt chi trả thành công
+            </span>
           </div>
 
-          {/* Pending Approval */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">Pending Approval</span>
-              <span className="w-6 h-6 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
-                <Clock size={14} />
-              </span>
-            </div>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {pendingApprovalCount}
+          {/* Card 2: Pending Approval */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Chờ ký duyệt (CFO)
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
+              {pendingApprovalCount} đợt
             </p>
-            <p className="text-[10px] text-amber-700 font-medium">
-              Requires dual-control sign-off
-            </p>
+            <span className="text-[11px] text-amber-600 block pt-0.5">
+              Cần xác nhận kiểm soát kép
+            </span>
           </div>
 
-          {/* Draft Batches */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">Drafts in Prep</span>
-              <span className="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-                <TrendingUp size={14} />
-              </span>
-            </div>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {draftCount}
+          {/* Card 3: Drafts in Prep */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Bản nháp đang lập
+            </span>
+            <p className="text-2xl font-semibold text-zinc-950 tracking-tight tabular-nums">
+              {draftCount} bản nháp
             </p>
-            <p className="text-[10px] text-blue-600 font-medium">Pre-validation stage</p>
+            <span className="text-[11px] text-zinc-500 block pt-0.5">
+              Chờ kiểm tra danh sách tài khoản
+            </span>
           </div>
 
-          {/* Adapter SLA */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500">Settlement Rail</span>
-              <span className="w-6 h-6 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center">
-                <ShieldCheck size={14} />
-              </span>
-            </div>
-            <p className="text-sm font-black text-slate-900 tracking-tight uppercase mt-1">
-              9Pay Testnet (Chi Hộ)
+          {/* Card 4: 9Pay Rail */}
+          <div className="bg-white p-5 rounded-lg border border-zinc-200 shadow-vercel-sm space-y-1">
+            <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
+              Cổng thanh toán
+            </span>
+            <p className="text-sm font-semibold text-zinc-950 tracking-tight mt-1">
+              9Pay Vietnam Sandbox
             </p>
-            <p className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
-              <span>Simulator 100% Operational</span>
-            </p>
+            <span className="text-[11px] text-emerald-600 flex items-center gap-1.5 pt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+              <span>Chuyển mạch NAPAS 24/7 sẵn sàng</span>
+            </span>
           </div>
         </div>
 
-        {/* Filter Navigation & Batches View */}
-        <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
-          {/* Status Tabs Header */}
-          <div className="border-b border-slate-200/80 px-6 flex items-center gap-6 overflow-x-auto text-xs font-semibold">
-            {[
-              { id: 'ALL', label: `All Batches (${batches.length})` },
-              { id: 'DRAFT', label: `Draft (${draftCount})` },
-              { id: 'VALIDATED', label: `Validated (${pendingApprovalCount})` },
-              {
-                id: 'APPROVED',
-                label: `Approved (${batches.filter((b) => b.status === 'APPROVED').length})`,
-              },
-              { id: 'COMPLETED', label: `Completed (${completedBatches.length})` },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setFilterStatus(tab.id)}
-                className={`py-3.5 border-b-2 transition whitespace-nowrap ${
-                  filterStatus === tab.id
-                    ? 'border-indigo-600 text-indigo-600'
-                    : 'border-transparent text-slate-500 hover:text-slate-800'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* Filter Navigation & Table Container */}
+        <div className="bg-white rounded-lg border border-zinc-200 shadow-vercel-sm overflow-hidden">
+          {/* Toolbar: Search input + Segmented Status Tabs */}
+          <div className="p-4 border-b border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Search Input */}
+            <div className="relative w-full sm:w-72">
+              <Search
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+              />
+              <input
+                type="text"
+                placeholder="Tìm kiếm đợt chi trả..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full text-xs pl-8 pr-3 py-1.5 border border-zinc-200 rounded-md focus:outline-none focus:border-zinc-400 font-normal bg-zinc-50/50"
+              />
+            </div>
+
+            {/* Vercel Segmented Filter Control */}
+            <div className="flex items-center gap-1 bg-zinc-100 p-1 rounded-md text-xs font-medium w-full sm:w-auto overflow-x-auto">
+              {[
+                { id: 'ALL', label: `Tất cả (${batches.length})` },
+                { id: 'DRAFT', label: `Bản nháp (${draftCount})` },
+                { id: 'VALIDATED', label: `Chờ duyệt (${pendingApprovalCount})` },
+                {
+                  id: 'APPROVED',
+                  label: `Đã duyệt (${batches.filter((b) => b.status === 'APPROVED').length})`,
+                },
+                { id: 'COMPLETED', label: `Hoàn tất (${completedBatches.length})` },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilterStatus(tab.id)}
+                  className={`px-3 py-1 rounded text-xs transition whitespace-nowrap ${
+                    filterStatus === tab.id
+                      ? 'bg-white text-black font-semibold shadow-vercel-sm'
+                      : 'text-zinc-600 hover:text-black'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Batches Table or Empty State */}
+          {/* Table or Empty State */}
           {loading && batches.length === 0 ? (
-            <div className="p-12 text-center text-xs text-slate-500">
-              Loading batches from repository...
+            <div className="p-16 text-center text-xs text-zinc-400">
+              Đang tải danh sách đợt chi...
             </div>
           ) : filteredBatches.length === 0 ? (
-            <div className="p-12 text-center max-w-md mx-auto space-y-4">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-xl">
-                💸
+            <div className="p-16 text-center max-w-sm mx-auto space-y-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-100 text-zinc-400 flex items-center justify-center mx-auto text-sm font-semibold">
+                —
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-sm font-semibold text-zinc-900">
                   {filterStatus === 'ALL'
-                    ? 'No Payroll Batches Found'
-                    : `No Batches in "${filterStatus}" State`}
+                    ? 'Chưa có đợt chi trả nào'
+                    : `Không tìm thấy đợt chi nào ở mục "${filterStatus}"`}
                 </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Start by creating a new contractor payout batch or run the instant 3-recipient
-                  demo simulation.
+                <p className="text-xs text-zinc-500 mt-1">
+                  Bắt đầu bằng việc tạo đợt chi trả mới hoặc chạy thử nghiệm mẫu.
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-3 pt-2">
-                <button
-                  onClick={handleRunFullDemoFlow}
-                  className="px-3.5 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 rounded-lg text-xs font-bold transition flex items-center gap-1.5"
-                >
-                  <Sparkles size={14} className="text-amber-500" />
-                  <span>Run 3-Person Demo</span>
-                </button>
+              <div className="pt-2">
                 <a
                   href="/batches/new"
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-sm transition"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black hover:bg-zinc-800 text-white rounded-md text-xs font-medium shadow-vercel-sm transition"
                 >
-                  + Create New Batch
+                  <Plus size={14} />
+                  <span>Tạo đợt chi đầu tiên</span>
                 </a>
               </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <thead className="bg-zinc-50/70 text-zinc-500 font-medium border-b border-zinc-200 uppercase text-[11px] tracking-wider">
                   <tr>
-                    <th className="p-4">Batch Title & Reference</th>
-                    <th className="p-4">Beneficiaries</th>
-                    <th className="p-4">Batch Lossless Total</th>
-                    <th className="p-4">Disbursement Rail</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4">Created Date</th>
-                    <th className="p-4 text-right">Action</th>
+                    <th className="py-3 px-4">Tên đợt chi trả</th>
+                    <th className="py-3 px-4">Số người nhận</th>
+                    <th className="py-3 px-4">Tổng số tiền (VND)</th>
+                    <th className="py-3 px-4">Cổng chi trả</th>
+                    <th className="py-3 px-4">Trạng thái</th>
+                    <th className="py-3 px-4">Ngày tạo</th>
+                    <th className="py-3 px-4 text-right">Thao tác</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-zinc-100">
                   {filteredBatches.map((b) => (
                     <tr
                       key={b.id}
                       onClick={() => router.push(`/batches/${b.id}`)}
-                      className="hover:bg-slate-50/80 transition cursor-pointer group"
+                      className="hover:bg-zinc-50/80 transition cursor-pointer group"
                     >
-                      <td className="p-4 font-bold text-slate-900">
-                        <div className="group-hover:text-indigo-600 transition">{b.title}</div>
-                        <div className="text-[11px] font-mono text-slate-400 font-normal">
+                      <td className="py-3.5 px-4 font-medium text-zinc-900">
+                        <div className="group-hover:text-black transition font-semibold">
+                          {b.title}
+                        </div>
+                        <div className="text-[11px] font-mono text-zinc-400">
                           {b.id}
                         </div>
                       </td>
-                      <td className="p-4 text-slate-600 font-medium">
-                        {b.items.length} recipient(s)
+                      <td className="py-3.5 px-4 text-zinc-600 font-normal">
+                        {b.items.length} người nhận
                       </td>
-                      <td className="p-4 font-mono font-extrabold text-slate-900 text-[13px]">
+                      <td className="py-3.5 px-4 font-medium text-zinc-950 tabular-nums">
                         {formatLosslessAmount(b.sourceAmountTotal, b.asset)}
                       </td>
-                      <td className="p-4">
-                        <span className="font-bold text-amber-800 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded text-[10px] uppercase">
-                          {b.provider}
+                      <td className="py-3.5 px-4">
+                        <span className="text-[11px] font-mono text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+                          {b.provider === 'mock' ? '9pay-testnet' : b.provider}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="py-3.5 px-4">
                         <StatusBadge status={b.status} />
                       </td>
-                      <td className="p-4 font-mono text-[11px] text-slate-500">
-                        {new Date(b.createdAt).toLocaleString()}
+                      <td className="py-3.5 px-4 text-[11px] text-zinc-500">
+                        {new Date(b.createdAt).toLocaleDateString('vi-VN')}
                       </td>
-                      <td className="p-4 text-right">
-                        <span className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 group-hover:text-indigo-700 bg-indigo-50 group-hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition">
-                          <span>Command Center</span>
-                          <ArrowRight size={13} />
+                      <td className="py-3.5 px-4 text-right">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-zinc-700 group-hover:text-black hover:underline">
+                          <span>Chi tiết</span>
+                          <ArrowRight size={12} />
                         </span>
                       </td>
                     </tr>
@@ -372,6 +387,13 @@ export default function DashboardOverviewPage() {
           )}
         </div>
       </div>
+
+      {/* Gemini AI Advisor Drawer */}
+      <GeminiAdvisorDrawer
+        batch={aiDrawerBatch || (batches.length > 0 ? batches[0] : null)}
+        isOpen={Boolean(aiDrawerBatch)}
+        onClose={() => setAiDrawerBatch(null)}
+      />
     </AppShell>
   );
 }

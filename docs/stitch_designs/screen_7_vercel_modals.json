@@ -1,0 +1,49 @@
+{
+  "outputComponents": [
+    {
+      "design": {
+        "screens": [
+          {
+            "deviceType": "DESKTOP",
+            "generatedBy": "create_datastore_entry",
+            "height": "2396",
+            "htmlCode": {
+              "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2RmZjUxYWM2M2UzYTQ2NmQ5ZDdjYjEwNmY5ZTNiMjQ2EgsSBxC-1qiWrx4YAZIBJAoKcHJvamVjdF9pZBIWQhQxNzYzMDU5MjE1NzAyOTk4MDA4NA&filename=&opi=96797242",
+              "mimeType": "text/html",
+              "name": "projects/17630592157029980084/files/29bf9772468940f1bc816623fd560caf"
+            },
+            "id": "0e96da92a8db4bdcaa91ba7a7a2fafbd",
+            "name": "projects/17630592157029980084/screens/0e96da92a8db4bdcaa91ba7a7a2fafbd",
+            "screenMetadata": {
+              "agentType": "PRO_AGENT",
+              "status": "COMPLETE"
+            },
+            "screenType": "DESIGN",
+            "screenshot": {
+              "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1UUVke_Y6txCsvGtHJPDoJRcc8Ye9SY94iUjeQYCAvP3PtF8jNSSfR-S6fGjtwug0rp9yQp5b4I_AmS3R0r6lcInhgWHlF04NGCg0VmUZm7p2b3HoMNd-G9gzTzg4jiusHPiUsB_sdW99HAECXpxZ0j3Wi1SDLvvoIUETZbAzPXurzxc19Q6g3dJAXOhW2jeMEj-CQNMCH6eiz_8PdiAf0x-0q54Nmri-JHc2VtJTHeOWchkmNgtUfJAk00",
+              "name": "projects/17630592157029980084/files/8d197bf4461241fc998554c18a86076e"
+            },
+            "theme": {},
+            "title": "PayBridge - Vercel Minimalist Dialogs & Gemini AI Advisory Drawer",
+            "width": "2560"
+          }
+        ],
+        "theme": {}
+      }
+    },
+    {
+      "text": "Đã hoàn thiện thiết kế bộ **Modal Dialogs & Slide-over Drawer** theo đúng quy chuẩn **Vercel / Geist Design System** (tối giản, nền trắng `#ffffff`/`#fafafa`, viền xám tinh tế 1px `#eaeaea`, nút bấm solid black, phông chữ Geist/Geist Mono sắc nét và hoàn toàn không dùng gradient màu mè).\n\n### Các thành phần chính trong màn hình:\n1. **Dialog 1: Ký duyệt Chi trả Kiểm soát kép (SEC-804 Dual-Control Signoff Modal)**:\n   - Khung modal màu trắng viền 1px chuẩn Vercel.\n   - Thẻ tóm tắt thông tin đợt chi `#PB-VN-9821` (4 nhân sự, 135.000.000 ₫).\n   - Trường nhập tên CFO (`Lê Thu Hằng` với nhãn `Tier-1 CFO`) và trường mật khẩu PIN phần cứng FIDO2/YubiKey.\n   - Checkbox xác nhận cam kết đối soát danh sách và số tài khoản ngân hàng.\n   - Nút hành động: Nút phụ `Huỷ bỏ` (nền trắng viền xám) và nút chính `Ký duyệt & Cho phép giải ngân` (solid black, bo góc chuẩn Geist).\n\n2. **Dialog 2: Điều phối Giải ngân qua Cổng 9Pay (Settlement Dispatch Modal)**:\n   - Thanh tiến trình 3 bước trực quan:\n     1. *Kiểm tra chữ ký CFO & khoá Idempotency*: Đã xác thực (icon check xanh lục nhạt tối giản, kèm mã băm Merkle & TTL 72h).\n     2. *Bắt tay kết nối cổng 9Pay Chi Hộ Sandbox*: Đã khớp trong 18ms qua giao thức mTLS 1.3.\n     3. *Chuyển mạch liên ngân hàng NAPAS 24/7*: Đang xử lý (clean spinner) hiển thị chi tiết các giao dịch rẽ nhánh Vietcombank, Techcombank, MB và ACB.\n   - Cam kết sai số BigInt quy đổi `0.00000000 VND`.\n   - Nút hành động `Xác nhận & Giải ngân ngay` (solid black).\n\n3. **Slide-over Drawer (Bên phải): Trợ lý Rủi ro Gemini AI**:\n   - Khung drawer cạnh phải nền trắng viền 1px tinh tế.\n   - **Thanh đo rủi ro bất thường (Anomaly Risk Meter)**: Chỉ số `0.04 / 10.0` (Trạng thái *An toàn*, thanh tiến trình màu đen tối giản).\n   - **3 nút truy vấn khuyến nghị nhanh (Quick Prompts)**: *🔍 Quy định thuế TNCN 10%*, *🏦 Kiểm tra tính tương thích NAPAS 24/7*, *📋 Soạn biên bản tóm tắt gửi Ban Giám đốc*.\n   - **Bản ghi nhớ AI (Advisory Memo)**: Callout nền xám trung tính `#f5f5f5` nêu rõ đợt chi đạt chuẩn an toàn 100%, tuân thủ Thông tư 111/2013/TT-BTC và khuyến nghị ký duyệt FIDO2.\n   - Hộp nhập liệu prompt ở đáy drawer với ghi chú rõ ràng về quyền hạn Read-Only của AI."
+    },
+    {
+      "suggestion": "Thêm hiệu ứng hoạt họa mở Modal/Drawer mượt mà (Framer Motion style)"
+    },
+    {
+      "suggestion": "Tạo trạng thái hoàn tất thành công của Dialog 2 sau khi chuyển mạch NAPAS 24/7"
+    },
+    {
+      "suggestion": "Xuất file mã nguồn React / Tailwind CSS tương thích Next.js App Router"
+    }
+  ],
+  "projectId": "17630592157029980084",
+  "sessionId": "7703582713770707017"
+}
